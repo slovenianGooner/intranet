@@ -28,3 +28,10 @@ php artisan migrate:fresh --seed
 You can now log in with the super admin account using the email `super-admin@intranet.dev` and the password you set in the `.env` file.
 
 If at any point you want to reset the database, you can run `php artisan migrate:fresh --seed` again.
+
+## Development
+
+### To-do list
+- [ ] Add persistent layout in Inertia
+- [ ] Add flash messages for errors and success
+- [ ] Add custom data editor for each user (editable in the users form or in the profile editor)
