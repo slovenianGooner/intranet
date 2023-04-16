@@ -1,14 +1,10 @@
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
-import {usePage} from "@inertiajs/react";
 
 export default function Form({form}) {
     return (
         <div className="space-y-6 max-w-lg">
-
-            <InputError className="mt-2" message={usePage().props.flash.error}/>
-
             <div>
                 <InputLabel htmlFor="name" value="Name"/>
 

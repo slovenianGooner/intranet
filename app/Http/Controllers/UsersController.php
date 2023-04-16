@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
 use Throwable;
+use function collect;
+use function config;
 
 class UsersController extends Controller
 {
@@ -69,6 +71,9 @@ class UsersController extends Controller
                     'name' => $role->name,
                 ];
             })->values(),
+            'customDataTypes' => collect(config('app.custom_data_types'))->mapWithKeys(function ($value, $key) {
+                return [$key => new $value];
+            })->values()
         ]);
     }
 
@@ -77,11 +82,14 @@ class UsersController extends Controller
        try {
             $this->authorize('create', User::class);
 
-            User::create([
+            $user = User::create([
                 'name' => $request->validated()['name'],
                 'email' => $request->validated()['email'],
                 'password' => Hash::make($request->validated()['password']),
-            ])->assignRole($request->validated()['role']);
+                'custom_data' => $request->validated()['custom_data'],
+            ]);
+
+            $user->syncRoles($request->validated()['roles']);
 
             return redirect()->route('users.index')->with('success', 'User created successfully.');
         } catch (Throwable $e) {
@@ -101,6 +109,9 @@ class UsersController extends Controller
                     'name' => $role->name,
                 ];
             })->values(),
+            'customDataTypes' => collect(config('app.custom_data_types'))->mapWithKeys(function ($value, $key) {
+                return [$key => new $value];
+            })->values(),
             'canDeleteUser' => $user->can_be_deleted,
             'canEditUserRoles' => $user->can_roles_be_edited,
             'canBeImpersonated' => $user->can_be_impersonated
@@ -115,16 +126,17 @@ class UsersController extends Controller
             $user->update([
                 'name' => $request->validated()['name'],
                 'email' => $request->validated()['email'],
+                'custom_data' => $request->validated()['custom_data'],
             ]);
 
-            if ($request->validated()['password']) {
+            if ($request->input()['password']) {
                 $user->update([
                     'password' => Hash::make($request->validated()['password']),
                 ]);
             }
 
             if ($user->can_roles_be_edited) {
-                $user->syncRoles($request->validated()['role']);
+                $user->syncRoles($request->validated()['roles']);
             }
 
             return redirect()->route('users.index')->with('success', 'User updated successfully.');

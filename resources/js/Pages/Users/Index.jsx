@@ -4,7 +4,7 @@ import SearchInput from "@/Components/SearchInput";
 import SelectInput from "@/Components/SelectInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 
-export default function Index({ auth, canCreateUser, canEditUsers, query, roles, users }) {
+const Index = function({ auth, canCreateUser, canEditUsers, query, roles, users }) {
     let search = (value) => {
         router.get(route('users.index', { ...query, search: value }), {}, { preserveState: true });
     }
@@ -14,7 +14,7 @@ export default function Index({ auth, canCreateUser, canEditUsers, query, roles,
     }
 
     return (
-        <AuthenticatedLayout>
+        <>
             <Head title="Users" />
 
             <div className="px-4 sm:px-6 lg:px-8 py-8">
@@ -91,6 +91,10 @@ export default function Index({ auth, canCreateUser, canEditUsers, query, roles,
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </>
     )
 }
+
+Index.layout = page => <AuthenticatedLayout children={page} />
+
+export default Index;

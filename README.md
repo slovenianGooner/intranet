@@ -32,6 +32,6 @@ If at any point you want to reset the database, you can run `php artisan migrate
 ## Development
 
 ### To-do list
-- [ ] Add persistent layout in Inertia
-- [ ] Add flash messages for errors and success
-- [ ] Add custom data editor for each user (editable in the users form or in the profile editor)
+- [ ] Add toggle to allow login for each individual user (as a permission?)
+- [ ] Add toggle to allow each individual user to be notified of new posts (as a permission?)
+- [ ] Basic database implementation of folders (use a tree structure?)

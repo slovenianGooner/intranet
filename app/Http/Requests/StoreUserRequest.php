@@ -13,6 +13,7 @@ class StoreUserRequest extends FormRequest
             "email" => "required|email|unique:users,email",
             "password" => "required|string|confirmed",
             "roles" => "array|min:1",
+            "custom_data" => "array",
         ];
     }
 

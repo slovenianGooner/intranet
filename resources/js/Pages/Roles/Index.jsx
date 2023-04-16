@@ -3,13 +3,13 @@ import {Head, Link, router} from "@inertiajs/react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SearchInput from "@/Components/SearchInput";
 
-export default function Index({canCreateRole, canEditRoles, query, roles}) {
+const Index = function({canCreateRole, canEditRoles, query, roles}) {
     let search = (value) => {
         router.get(route('roles.index', {...query, search: value}), {}, {preserveState: true});
     }
 
     return (
-        <AuthenticatedLayout>
+        <>
             <Head title="Roles"/>
 
             <div className="px-4 sm:px-6 lg:px-8 py-8">
@@ -69,6 +69,10 @@ export default function Index({canCreateRole, canEditRoles, query, roles}) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </>
     )
 }
+
+Index.layout = (page) => <AuthenticatedLayout children={page}/>
+
+export default Index

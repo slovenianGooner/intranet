@@ -4,14 +4,14 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import Form from "@/Pages/Users/Form";
 
-export default function Create({ query, user, roles }) {
+const Create = function ({ query, user, roles, customDataTypes }) {
     const form = useForm({ ...user, password: '', password_confirmation: '' });
 
     const submit = (e) => {
         form.post(route('users.store', { ...query }));
     }
     return (
-        <AuthenticatedLayout>
+        <>
             <Head title="Create User" />
 
             <div className="px-4 sm:px-6 lg:px-8 py-8">
@@ -20,7 +20,7 @@ export default function Create({ query, user, roles }) {
                         <h3 className="text-base font-semibold leading-6 text-gray-900">Create User</h3>
                     </div>
                     <div className="px-4 py-5 sm:p-6">
-                        <Form form={form} roles={roles} />
+                        <Form form={form} roles={roles} customDataTypes={customDataTypes} />
                     </div>
                     <div className="px-4 py-4 sm:px-6 flex justify-end space-x-2">
                         <SecondaryButton onClick={(e) => router.get(route('users.index', { ...query }))}>Cancel</SecondaryButton>
@@ -28,6 +28,10 @@ export default function Create({ query, user, roles }) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </>
     )
 }
+
+Create.layout = page => <AuthenticatedLayout children={page} />
+
+export default Create

@@ -7,7 +7,7 @@ import DangerButton from "@/Components/DangerButton";
 import {useState} from "react";
 import Modal from "@/Components/Modal";
 
-export default function Edit({query, role, canDeleteRole}) {
+const Edit = function({query, role, canDeleteRole}) {
     const [confirmingRoleDeletion, setConfirmingRoleDeletion] = useState(false);
     const form = useForm({...role});
 
@@ -23,7 +23,7 @@ export default function Edit({query, role, canDeleteRole}) {
         form.delete(route('roles.destroy', {role: role.id, ...query}));
     }
     return (
-        <AuthenticatedLayout>
+        <>
             <Head title="Edit Role"/>
 
             <div className="px-4 sm:px-6 lg:px-8 py-8">
@@ -72,6 +72,10 @@ export default function Edit({query, role, canDeleteRole}) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </>
     )
 }
+
+Edit.layout = page => <AuthenticatedLayout children={page}/>
+
+export default Edit

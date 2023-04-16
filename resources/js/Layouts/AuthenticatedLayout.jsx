@@ -10,15 +10,12 @@ import {
 } from "@heroicons/react/24/solid";
 import {Link, router, usePage} from '@inertiajs/react';
 import PrimaryButton from "@/Components/PrimaryButton";
+import { classNames } from "@/Hooks/useClassNames";
 
 const icons = {
     HomeIcon: HomeIcon,
     UsersIcon: UsersIcon,
     LockOpenIcon: LockOpenIcon,
-}
-
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
 }
 
 export default function Authenticated({children}) {
@@ -36,12 +33,11 @@ export default function Authenticated({children}) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [showToast, setShowToast] = useState(flash.error !== null || flash.success !== null);
     useEffect(() => {
-        if (showToast) {
-            setTimeout(() => {
-                setShowToast(false);
-            }, 5000);
-        }
-    })
+        setShowToast(flash.error !== null || flash.success !== null);
+        setTimeout(() => {
+            setShowToast(false);
+        }, 5000);
+    }, [flash.error, flash.success]);
 
     return (<div>
             <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -96,6 +92,7 @@ export default function Authenticated({children}) {
                                         <ul role="list" className="-mx-2 space-y-1">
                                             {navigation.map((item) => (<li key={item.name}>
                                                     <Link href={item.href}
+                                                          onClick={() => setSidebarOpen(false)}
                                                           className={classNames(item.current ? 'bg-indigo-700 text-white' : 'text-indigo-200 hover:text-white hover:bg-indigo-700', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold')}>
                                                         <item.icon
                                                             className={classNames(item.current ? 'text-white' : 'text-indigo-200 group-hover:text-white', 'h-6 w-6 shrink-0')}

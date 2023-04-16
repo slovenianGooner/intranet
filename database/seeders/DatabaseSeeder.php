@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Super Admin',
             'email' => 'super-admin@intranet.dev',
             'password' => Hash::make(config('app.super_admin_password')),
+            'custom_data' => []
         ]);
         $superAdminUser->assignRole($superAdminRole);
 
@@ -44,6 +45,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@intranet.dev',
             'password' => Hash::make('password'),
+            'custom_data' => []
         ]);
         $adminUser->assignRole($adminRole);
         $adminUser->assignRole($editorRole);
@@ -52,6 +54,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Editor',
             'email' => 'editor@intranet.dev',
             'password' => Hash::make('password'),
+            'custom_data' => []
         ]);
         $editorUser->assignRole($editorRole);
 
@@ -59,6 +62,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Agency',
             'email' => 'agency@intranet.dev',
             'password' => Hash::make('password'),
+            'custom_data' => []
         ]);
         $agencyUser->assignRole($agencyRole);
     }

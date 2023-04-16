@@ -1,5 +1,11 @@
 <?php
 
+use App\DTO\CustomDataTypes\Address;
+use App\DTO\CustomDataTypes\Gender;
+use App\DTO\CustomDataTypes\HomePhone;
+use App\DTO\CustomDataTypes\MobilePhone;
+use App\DTO\CustomDataTypes\Phone;
+use App\DTO\CustomDataTypes\WorkPhone;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -212,6 +218,14 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
-    'super_admin_password' => env('SUPER_ADMIN_PASSWORD', null)
+    'super_admin_password' => env('SUPER_ADMIN_PASSWORD', null),
+
+    'custom_data_types' => [
+        'gender' => Gender::class,
+        'address' => Address::class,
+        'home_phone' => HomePhone::class,
+        'mobile_phone' => MobilePhone::class,
+        'work_phone' => WorkPhone::class,
+    ]
 
 ];

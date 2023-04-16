@@ -18,6 +18,7 @@ class UserFormResource extends JsonResource
             'name' => $this->resource?->name ?? '',
             'email' => $this->resource?->email ?? '',
             'roles' => $this->resource?->roles->pluck("name")->toArray() ?? [],
+            'custom_data' => $this->resource?->custom_data ?? [],
         ];
     }
 }

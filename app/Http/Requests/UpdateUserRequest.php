@@ -13,6 +13,7 @@ class UpdateUserRequest extends FormRequest
             "email" => "required|email",
             'password_confirmation' => 'required_with:password',
             'roles' => 'required|array',
+            'custom_data' => 'array',
         ];
     }
 

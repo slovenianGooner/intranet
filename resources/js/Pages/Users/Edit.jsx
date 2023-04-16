@@ -1,4 +1,4 @@
-import {usePage, Head, router, useForm} from "@inertiajs/react";
+import {Head, router, useForm} from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
@@ -7,7 +7,7 @@ import DangerButton from "@/Components/DangerButton";
 import {useState} from "react";
 import Modal from "@/Components/Modal";
 
-export default function Edit({query, auth, user, roles, canEditUserRoles, canDeleteUser, canBeImpersonated}) {
+const Edit = function({query, auth, user, roles, customDataTypes, canEditUserRoles, canDeleteUser, canBeImpersonated}) {
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
     const form = useForm({...user, password: '', password_confirmation: ''});
 
@@ -23,7 +23,7 @@ export default function Edit({query, auth, user, roles, canEditUserRoles, canDel
         form.delete(route('users.destroy', { user: user.id, ...query }));
     }
     return (
-        <AuthenticatedLayout>
+        <>
             <Head title="Edit User"/>
 
             <div className="px-4 sm:px-6 lg:px-8 py-8">
@@ -35,7 +35,7 @@ export default function Edit({query, auth, user, roles, canEditUserRoles, canDel
                         )}
                     </div>
                     <div className="px-4 py-5 sm:p-6">
-                        <Form form={form} roles={roles} canEditUserRoles={canEditUserRoles}/>
+                        <Form form={form} roles={roles} canEditUserRoles={canEditUserRoles} customDataTypes={customDataTypes}/>
                     </div>
                     <div className="px-4 py-4 sm:px-6 flex justify-between">
                         <div>
@@ -73,6 +73,10 @@ export default function Edit({query, auth, user, roles, canEditUserRoles, canDel
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </>
     )
 }
+
+Edit.layout = page => <AuthenticatedLayout children={page} />
+
+export default Edit

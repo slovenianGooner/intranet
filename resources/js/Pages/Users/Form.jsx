@@ -2,14 +2,15 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import Checkbox from "@/Components/Checkbox";
-import {usePage} from "@inertiajs/react";
+import {Menu, Transition} from "@headlessui/react";
+import {Fragment} from "react";
+import {Link} from "@inertiajs/react";
+import {classNames} from "@/Hooks/useClassNames";
+import CustomDataInput from "@/Components/CustomDataInput";
 
-export default function Form({form, roles, canEditUserRoles = true}) {
+export default function Form({form, roles, customDataTypes = [], canEditUserRoles = true}) {
     return (
         <div className="space-y-6 max-w-lg">
-
-            <InputError className="mt-2" message={usePage().props.flash.error}/>
-
             <div>
                 <InputLabel htmlFor="name" value="Name"/>
 
@@ -96,6 +97,15 @@ export default function Form({form, roles, canEditUserRoles = true}) {
                     <InputError message={form.errors.roles} className="mt-2"/>
                 </div>
             )}
+
+            <div>
+                <InputLabel htmlFor="custom_data" value="Custom Data"/>
+
+                <CustomDataInput value={form.data.custom_data}
+                                 onChange={(value) => form.setData('custom_data', value)}
+                                 customDataTypes={customDataTypes}
+                                 className="mt-4"/>
+            </div>
         </div>
     )
 }

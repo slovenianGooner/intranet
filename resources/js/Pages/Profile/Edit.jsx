@@ -4,9 +4,9 @@ import UpdatePasswordForm from './Partials/UpdatePasswordForm';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
 import { Head } from '@inertiajs/react';
 
-export default function Edit({ status }) {
+const Edit = function({ status }) {
     return (
-        <AuthenticatedLayout>
+        <>
             <Head title="Profile" />
 
             <div className="py-8">
@@ -27,6 +27,10 @@ export default function Edit({ status }) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </>
     );
 }
+
+Edit.layout = page => <AuthenticatedLayout children={page} />
+
+export default Edit;

@@ -4,14 +4,14 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import Form from "@/Pages/Roles/Form";
 
-export default function Create({ query, role }) {
+const Create = function({ query, role }) {
     const form = useForm({ ...role });
 
     const submit = (e) => {
         form.post(route('roles.store', { ...query }));
     }
     return (
-        <AuthenticatedLayout>
+        <>
             <Head title="Create Role" />
 
             <div className="px-4 sm:px-6 lg:px-8 py-8">
@@ -28,6 +28,10 @@ export default function Create({ query, role }) {
                     </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </>
     )
 }
+
+Create.layout = page => <AuthenticatedLayout children={page} />
+
+export default Create
