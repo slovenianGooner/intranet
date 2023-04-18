@@ -2,15 +2,38 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import Checkbox from "@/Components/Checkbox";
-import {Menu, Transition} from "@headlessui/react";
-import {Fragment} from "react";
-import {Link} from "@inertiajs/react";
-import {classNames} from "@/Hooks/useClassNames";
 import CustomDataInput from "@/Components/CustomDataInput";
 
 export default function Form({form, roles, customDataTypes = [], canEditUserRoles = true}) {
     return (
         <div className="space-y-6 max-w-lg">
+
+            <div className="flex space-x-8">
+                <label className="flex items-center">
+                    <Checkbox
+                        name="can_login"
+                        value={true}
+                        checked={form.data.can_login}
+                        onChange={
+                            (e) => form.setData('can_login', e.target.checked)
+                        }
+                    />
+                    <span className="ml-2 text-sm text-gray-600">Can Login</span>
+                </label>
+
+                <label className="flex items-center">
+                    <Checkbox
+                        name="can_notify"
+                        value={true}
+                        checked={form.data.can_notify}
+                        onChange={
+                            (e) => form.setData('can_notify', e.target.checked)
+                        }
+                    />
+                    <span className="ml-2 text-sm text-gray-600">Can Notify</span>
+                </label>
+            </div>
+
             <div>
                 <InputLabel htmlFor="name" value="Name"/>
 

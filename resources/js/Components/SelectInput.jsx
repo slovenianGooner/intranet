@@ -6,7 +6,15 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default forwardRef(function SelectInput({options = [], submit, className = '', valueProp = 'value', nameProp = 'name', ...props}, ref) {
+export default forwardRef(function SelectInput({
+                                                   options = [],
+                                                   submit,
+                                                   className = '',
+                                                   valueProp = 'value',
+                                                   nameProp = 'name',
+                                                   itemSlot,
+                                                   ...props
+                                               }, ref) {
     const propValue = props.value || null;
     const [selected, setSelected] = useState(options.filter(option => option[valueProp] === propValue)[0] || options[0])
 
@@ -50,9 +58,12 @@ export default forwardRef(function SelectInput({options = [], submit, className 
                                     >
                                         {({selected, active}) => (
                                             <>
-                                                <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
-                                                  {option[nameProp]}
-                                                </span>
+                                                {itemSlot ? itemSlot(option) : (
+                                                    <span
+                                                        className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
+                                                        {option[nameProp]}
+                                                    </span>
+                                                )}
 
                                                 {selected ? (
                                                     <span

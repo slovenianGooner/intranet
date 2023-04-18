@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Folder;
 use App\Models\User;
 use Hash;
 use Illuminate\Database\Seeder;
@@ -35,6 +36,23 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'roles.edit']);
         Permission::create(['name' => 'roles.destroy']);
 
+        Permission::create(['name' => 'folders']);
+        Permission::create(['name' => 'folders.create']);
+        Permission::create(['name' => 'folders.edit']);
+        Permission::create(['name' => 'folders.destroy']);
+
+        Permission::create(['name' => 'notify']);
+        Permission::create(['name' => 'login']);
+
+        // Create root folder
+        Folder::create([
+            'name' => 'Root',
+            'slug' => 'root',
+            'description' => 'Root folder',
+            'active' => true,
+            'parent_id' => null,
+        ])->makeRoot();
+
         // Temporary seeder stuff for testing
         $adminRole = Role::create(['name' => 'Admin']);
         $adminRole->givePermissionTo('users', 'users.edit', 'users.create', 'users.destroy', 'roles', 'roles.edit', 'roles.create', 'roles.destroy');
@@ -65,5 +83,109 @@ class DatabaseSeeder extends Seeder
             'custom_data' => []
         ]);
         $agencyUser->assignRole($agencyRole);
+
+        // Temporary Folders
+        $rootFolder = Folder::root();
+
+        $fileLibrary = $rootFolder->children()->create([
+            'name' => 'File Library',
+            'slug' => 'file-library',
+            'description' => null,
+            'active' => true,
+            'parent_id' => $rootFolder->id,
+        ]);
+        $images = $fileLibrary->children()->create([
+            'name' => 'Images',
+            'slug' => 'images',
+            'description' => null,
+            'active' => true,
+            'parent_id' => $fileLibrary->id,
+        ]);
+        $images->children()->create([
+            'name' => 'Logos',
+            'slug' => 'logos',
+            'description' => null,
+            'active' => true,
+            'parent_id' => $images->id,
+        ]);
+        $images->children()->create([
+            'name' => 'Icons',
+            'slug' => 'icons',
+            'description' => null,
+            'active' => true,
+            'parent_id' => $images->id,
+        ]);
+        $images->children()->create([
+            'name' => 'Banners',
+            'slug' => 'banners',
+            'description' => null,
+            'active' => true,
+            'parent_id' => $images->id,
+        ]);
+        $fileLibrary->children()->create([
+            'name' => 'Documents',
+            'slug' => 'documents',
+            'description' => null,
+            'active' => true,
+            'parent_id' => $fileLibrary->id,
+        ]);
+        $fileLibrary->children()->create([
+            'name' => 'Videos',
+            'slug' => 'videos',
+            'description' => null,
+            'active' => true,
+            'parent_id' => $fileLibrary->id,
+        ]);
+
+        $news = $rootFolder->children()->create([
+            'name' => 'News',
+            'slug' => 'news',
+            'description' => null,
+            'active' => true,
+            'parent_id' => $rootFolder->id,
+        ]);
+        $news->children()->create([
+            'name' => 'Press Releases',
+            'slug' => 'press-releases',
+            'description' => null,
+            'active' => true,
+            'parent_id' => $news->id,
+        ]);
+        $news->children()->create([
+            'name' => 'Blog Posts',
+            'slug' => 'blog-posts',
+            'description' => null,
+            'active' => true,
+            'parent_id' => $news->id,
+        ]);
+
+        $events = $rootFolder->children()->create([
+            'name' => 'Events',
+            'slug' => 'events',
+            'description' => null,
+            'active' => true,
+            'parent_id' => $rootFolder->id,
+        ]);
+        $events->children()->create([
+            'name' => 'Conferences',
+            'slug' => 'conferences',
+            'description' => null,
+            'active' => true,
+            'parent_id' => $events->id,
+        ]);
+        $events->children()->create([
+            'name' => 'Meetings',
+            'slug' => 'meetings',
+            'description' => null,
+            'active' => true,
+            'parent_id' => $events->id,
+        ]);
+        $events->children()->create([
+            'name' => 'Seminars',
+            'slug' => 'seminars',
+            'description' => null,
+            'active' => true,
+            'parent_id' => $events->id,
+        ]);
     }
 }

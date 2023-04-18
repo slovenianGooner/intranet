@@ -29,9 +29,6 @@ You can now log in with the super admin account using the email `super-admin@int
 
 If at any point you want to reset the database, you can run `php artisan migrate:fresh --seed` again.
 
-## Development
-
+## Development**
 ### To-do list
-- [ ] Add toggle to allow login for each individual user (as a permission?)
-- [ ] Add toggle to allow each individual user to be notified of new posts (as a permission?)
-- [ ] Basic database implementation of folders (use a tree structure?)
+- [ ] Switch nested set with baum/baum to make it easier to work with

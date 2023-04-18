@@ -33,7 +33,7 @@ export default function CustomDataInput({customDataTypes, className = '', ...pro
     let handleChange = (propValue) => {
         props.onChange(propValue.map((value) => {
             delete value.componentObject
-            return {...value }
+            return {...value}
         }));
     }
 
@@ -45,52 +45,32 @@ export default function CustomDataInput({customDataTypes, className = '', ...pro
             )
         }>
 
-            {propValue.length > 0 && <div className="border">
-                <div className="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
-                    <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                        <table className="min-w-full divide-y divide-gray-300 table-auto">
-                            <thead>
-                            <tr className="divide-x divide-gray-200">
-                                <th scope="col" className="px-4 py-2 text-left text-sm font-semibold text-gray-900">
-                                    Title
-                                </th>
-                                <th scope="col" className="px-4 py-2 text-left text-sm font-semibold text-gray-900">
-                                    Value
-                                </th>
-                                <th scope="col"
-                                    className="relative py-2 px-4 text-left text-sm font-semibold text-gray-900 w-16">
-
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200 bg-white">
-                            {propValue.map((value, index) => {
-                                return {
-                                    ...value,
-                                    componentObject: components[value.component],
-                                }
-                            }).map((value, index) => (
-                                <tr key={index} className="divide-x divide-gray-200">
-                                    <td className="whitespace-nowrap px-4 py-2 text-sm font-medium text-gray-900">
-                                        {value.title}
-                                    </td>
-                                    <td className="whitespace-nowrap px-4 py-2 text-sm text-gray-500">
-                                        <value.componentObject
-                                            value={value}
-                                            onChange={(value) => updateValueAtIndex(value, index)}
-                                        />
-                                    </td>
-                                    <td className="relative whitespace-nowrap px-4 py-2 text-sm text-gray-500 text-right w-16">
-                                        <button className="text-indigo-600 hover:text-indigo-900"
-                                            onClick={(e) => removeValueAtIndex(index)}>
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                    </div>
+            {propValue.length > 0 && <div className="border rounded-md">
+                <div className="divide-y divide-gray-200">
+                    {propValue.map((value, index) => {
+                        return {
+                            ...value,
+                            componentObject: components[value.component],
+                        }
+                    }).map((value, index) => (
+                        <div key={index} className="p-4 space-y-1">
+                            <div className="whitespace-nowrap text-sm font-medium text-gray-900">
+                                {value.title}
+                            </div>
+                            <div className="whitespace-nowrap text-sm text-gray-500">
+                                <value.componentObject
+                                    value={value}
+                                    onChange={(value) => updateValueAtIndex(value, index)}
+                                />
+                            </div>
+                            <div className="relative whitespace-nowrap text-sm text-gray-500 text-right">
+                                <button className="text-indigo-600 hover:text-indigo-900"
+                                        onClick={(e) => removeValueAtIndex(index)}>
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>}
 

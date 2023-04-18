@@ -4,8 +4,76 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aa36aa10d6f64bc56580e85347835d93",
+    "content-hash": "a107d8f93bb1f284b015a15593324c12",
     "packages": [
+        {
+            "name": "baum/baum",
+            "version": "3.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/etrepat/baum.git",
+                "reference": "625816eeeaec1831d639457d0ed1d8076155569b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/etrepat/baum/zipball/625816eeeaec1831d639457d0ed1d8076155569b",
+                "reference": "625816eeeaec1831d639457d0ed1d8076155569b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^8.0|^9.0|^10.0",
+                "illuminate/database": "^8.0|^9.0|^10.0",
+                "illuminate/events": "^8.0|^9.0|^10.0",
+                "illuminate/support": "^8.0|^9.0|^10.0",
+                "php": "^7.3|^8.0|^8.1"
+            },
+            "require-dev": {
+                "illuminate/console": "^8.0|^9.0|^10.0",
+                "illuminate/filesystem": "^8.0|^9.0|^10.0",
+                "mockery/mockery": "^1.4.4",
+                "phpunit/phpunit": "^8.5.19|^9.5.8",
+                "psy/psysh": "@stable",
+                "squizlabs/php_codesniffer": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Baum\\BaumServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Baum\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Estanislau Trepat",
+                    "email": "estanis@etrepat.com",
+                    "homepage": "https://etrepat.com"
+                }
+            ],
+            "description": "Baum is an implementation of the Nested Set pattern for Eloquent models.",
+            "keywords": [
+                "database",
+                "eloquent",
+                "hierarchy",
+                "laravel",
+                "nested set",
+                "tree"
+            ],
+            "support": {
+                "issues": "https://github.com/etrepat/baum/issues",
+                "source": "https://github.com/etrepat/baum/tree/3.x"
+            },
+            "time": "2023-02-22T17:24:44+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.10.2",
@@ -8177,7 +8245,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "baum/baum": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

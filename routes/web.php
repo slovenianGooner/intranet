@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FoldersController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UsersController;
@@ -36,6 +37,14 @@ Route::group(["middleware" => ["auth", "verified"]], function () {
     Route::get('/roles/{role}/edit', [RolesController::class, 'edit'])->name('roles.edit')->can("roles.edit");
     Route::patch('/roles/{role}', [RolesController::class, 'update'])->name('roles.update')->can("roles.edit");
     Route::delete('/roles/{role}', [RolesController::class, 'destroy'])->name('roles.destroy')->can("roles.destroy");
+
+    Route::get('/folders', [FoldersController::class, 'index'])->name('folders.index')->can("folders");
+    Route::get('/folders/create', [FoldersController::class, 'create'])->name('folders.create')->can("folders.create");
+    Route::post('/folders', [FoldersController::class, 'store'])->name('folders.store')->can("folders.create");
+    Route::get('/folders/{folder}/edit', [FoldersController::class, 'edit'])->name('folders.edit')->can("folders.edit");
+    Route::post('/folders/{folder}/sort', [FoldersController::class, 'sort'])->name('folders.sort')->can("folders.edit");
+    Route::patch('/folders/{folder}', [FoldersController::class, 'update'])->name('folders.update')->can("folders.edit");
+    Route::delete('/folders/{folder}', [FoldersController::class, 'destroy'])->name('folders.destroy')->can("folders.destroy");
 
     Route::impersonate();
 });

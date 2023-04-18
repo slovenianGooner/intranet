@@ -91,6 +91,17 @@ class UsersController extends Controller
 
             $user->syncRoles($request->validated()['roles']);
 
+            $permissions = [];
+            if ($request->input("can_login")) {
+                $permissions[] = "login";
+            }
+
+            if ($request->input("can_notify")) {
+                $permissions[] = "notify";
+            }
+
+            $user->syncPermissions($permissions);
+
             return redirect()->route('users.index')->with('success', 'User created successfully.');
         } catch (Throwable $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong.");
@@ -138,6 +149,17 @@ class UsersController extends Controller
             if ($user->can_roles_be_edited) {
                 $user->syncRoles($request->validated()['roles']);
             }
+
+            $permissions = [];
+            if ($request->input("can_login")) {
+                $permissions[] = "login";
+            }
+
+            if ($request->input("can_notify")) {
+                $permissions[] = "notify";
+            }
+
+            $user->syncPermissions($permissions);
 
             return redirect()->route('users.index')->with('success', 'User updated successfully.');
         } catch (Throwable $e) {

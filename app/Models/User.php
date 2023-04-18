@@ -126,6 +126,15 @@ class User extends Authenticatable
             ];
         }
 
+        if ($this->can('folders')) {
+            $navigation[] = [
+                'name' => 'Folders',
+                'icon' => 'FolderIcon',
+                'href' => route('folders.index'),
+                'current' => Route::is('folders.*'),
+            ];
+        }
+
         return $navigation;
     }
 }

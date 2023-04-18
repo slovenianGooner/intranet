@@ -19,6 +19,8 @@ class UserFormResource extends JsonResource
             'email' => $this->resource?->email ?? '',
             'roles' => $this->resource?->roles->pluck("name")->toArray() ?? [],
             'custom_data' => $this->resource?->custom_data ?? [],
+            'can_notify' => $this->resource?->can('notify') ?? false,
+            'can_login' => $this->resource?->can('login') ?? false
         ];
     }
 }
