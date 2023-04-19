@@ -3,6 +3,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import SearchInput from "@/Components/SearchInput";
 import SelectInput from "@/Components/SelectInput";
 import PrimaryButton from "@/Components/PrimaryButton";
+import Pagination from "@/Components/Pagination";
 
 const Index = function({ auth, canCreateUser, canEditUsers, query, roles, users }) {
     let search = (value) => {
@@ -59,7 +60,7 @@ const Index = function({ auth, canCreateUser, canEditUsers, query, roles, users 
                                     </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-200 bg-white">
-                                    {users.map((user) => (
+                                    {users.data.map((user) => (
                                         <tr key={user.email}>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                 {user.name}
@@ -74,7 +75,8 @@ const Index = function({ auth, canCreateUser, canEditUsers, query, roles, users 
                                             </td>
                                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 space-x-4">
                                                 {canEditUsers && user.can_be_edited && <Link
-                                                    href={route('users.edit', { user: user.id, ...query })} className="text-indigo-600 hover:text-indigo-900">
+                                                    href={route('users.edit', { user: user.id, ...query })}
+                                                    className="text-indigo-600 hover:text-indigo-900">
                                                     Edit<span className="sr-only">, {user.name}</span>
                                                 </Link>}
                                                 {user.can_be_impersonated && !auth.is_impersonating && <Link
@@ -89,6 +91,9 @@ const Index = function({ auth, canCreateUser, canEditUsers, query, roles, users 
                             </div>
                         </div>
                     </div>
+                </div>
+                <div className="flex justify-end mt-8">
+                    <Pagination query={query} data={users} />
                 </div>
             </div>
         </>

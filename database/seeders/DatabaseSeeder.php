@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\DTO\ContentType;
+use App\Models\Content;
 use App\Models\Folder;
 use App\Models\User;
+use Carbon\Carbon;
 use Hash;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -85,6 +88,12 @@ class DatabaseSeeder extends Seeder
         $agencyUser->assignRole($agencyRole);
 
         // Temporary Folders
+        $this->foldersSeeder();
+        $this->contentsSeeder();
+    }
+
+    public function foldersSeeder()
+    {
         $rootFolder = Folder::root();
 
         $fileLibrary = $rootFolder->children()->create([
@@ -186,6 +195,88 @@ class DatabaseSeeder extends Seeder
             'description' => null,
             'active' => true,
             'parent_id' => $events->id,
+        ]);
+    }
+
+    public function contentsSeeder()
+    {
+        Content::create([
+            'active' => true,
+            'type' => ContentType::MEMO,
+            'title' => 'Test Memo',
+            'slug' => 'test-memo',
+            'body' => '<p>This is a test memo</p>',
+            'created_by' => 1
+        ]);
+
+        Content::create([
+            'active' => true,
+            'type' => ContentType::MEMO,
+            'title' => 'Test Memo 2',
+            'slug' => 'test-memo-2',
+            'body' => '<p>This is a test memo 2</p>',
+            'created_by' => 1
+        ]);
+
+        Content::create([
+            'active' => true,
+            'type' => ContentType::MEMO,
+            'title' => 'Test Memo 3',
+            'slug' => 'test-memo-3',
+            'body' => '<p>This is a test memo 3</p>',
+            'created_by' => 1
+        ]);
+
+        Content::create([
+            'active' => true,
+            'type' => ContentType::EVENT,
+            'title' => 'Test Event',
+            'slug' => 'test-event',
+            'body' => '<p>This is a test event</p>',
+            'created_by' => 1,
+            'starts_at' => Carbon::now(),
+            'ends_at' => Carbon::now()->addDays(2),
+            'allow_signups' => true,
+            'last_signup_at' => Carbon::now()->addDays(1),
+        ]);
+
+        Content::create([
+            'active' => true,
+            'type' => ContentType::EVENT,
+            'title' => 'Test Event 2',
+            'slug' => 'test-event-2',
+            'body' => '<p>This is a test event 2</p>',
+            'created_by' => 1,
+            'starts_at' => Carbon::now()->addDays(2),
+            'ends_at' => Carbon::now()->addDays(4),
+            'allow_signups' => true,
+            'last_signup_at' => Carbon::now()->addDays(3),
+        ]);
+
+        Content::create([
+            'active' => true,
+            'type' => ContentType::EVENT,
+            'title' => 'Test Event 3',
+            'slug' => 'test-event-3',
+            'body' => '<p>This is a test event 3</p>',
+            'created_by' => 1,
+            'starts_at' => Carbon::now()->addDays(4),
+            'ends_at' => Carbon::now()->addDays(6),
+            'allow_signups' => true,
+            'last_signup_at' => Carbon::now()->addDays(5),
+        ]);
+
+        Content::create([
+            'active' => true,
+            'type' => ContentType::EVENT,
+            'title' => 'Test Event 4',
+            'slug' => 'test-event-4',
+            'body' => '<p>This is a test event 4</p>',
+            'created_by' => 1,
+            'starts_at' => Carbon::now()->addDays(6),
+            'ends_at' => Carbon::now()->addDays(8),
+            'allow_signups' => true,
+            'last_signup_at' => Carbon::now()->addDays(7),
         ]);
     }
 }

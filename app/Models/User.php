@@ -135,6 +135,15 @@ class User extends Authenticatable
             ];
         }
 
+        if ($this->can('contents')) {
+            $navigation[] = [
+                'name' => 'Contents',
+                'icon' => 'DocumentIcon',
+                'href' => route('contents.index'),
+                'current' => Route::is('contents.*'),
+            ];
+        }
+
         return $navigation;
     }
 }

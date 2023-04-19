@@ -7,7 +7,8 @@ import {
     UsersIcon,
     XMarkIcon,
     LockOpenIcon,
-    FolderIcon
+    FolderIcon,
+    DocumentIcon
 } from "@heroicons/react/24/solid";
 import {Link, router, usePage} from '@inertiajs/react';
 import PrimaryButton from "@/Components/PrimaryButton";
@@ -18,6 +19,7 @@ const icons = {
     UsersIcon: UsersIcon,
     LockOpenIcon: LockOpenIcon,
     FolderIcon: FolderIcon,
+    DocumentIcon: DocumentIcon,
 }
 
 export default function Authenticated({children}) {

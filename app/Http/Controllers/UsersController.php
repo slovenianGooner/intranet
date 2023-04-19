@@ -35,7 +35,7 @@ class UsersController extends Controller
             }
         )->whereHas('roles', function ($query) use ($request) {
             $query->where('name', '!=', 'Super Admin');
-        })->get()->map(function (User $user) {
+        })->paginate(10)->withQueryString()->through(function (User $user) {
             return [
                 'id' => $user->id,
                 'name' => $user->name,

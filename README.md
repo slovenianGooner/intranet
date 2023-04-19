@@ -31,4 +31,4 @@ If at any point you want to reset the database, you can run `php artisan migrate
 
 ## Development**
 ### To-do list
-- [ ] Switch nested set with baum/baum to make it easier to work with
+- [ ] Add pagination to users and contents list 
