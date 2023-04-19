@@ -200,83 +200,27 @@ class DatabaseSeeder extends Seeder
 
     public function contentsSeeder()
     {
-        Content::create([
-            'active' => true,
-            'type' => ContentType::MEMO,
-            'title' => 'Test Memo',
-            'slug' => 'test-memo',
-            'body' => '<p>This is a test memo</p>',
-            'created_by' => 1
-        ]);
-
-        Content::create([
-            'active' => true,
-            'type' => ContentType::MEMO,
-            'title' => 'Test Memo 2',
-            'slug' => 'test-memo-2',
-            'body' => '<p>This is a test memo 2</p>',
-            'created_by' => 1
-        ]);
-
-        Content::create([
-            'active' => true,
-            'type' => ContentType::MEMO,
-            'title' => 'Test Memo 3',
-            'slug' => 'test-memo-3',
-            'body' => '<p>This is a test memo 3</p>',
-            'created_by' => 1
-        ]);
-
-        Content::create([
-            'active' => true,
-            'type' => ContentType::EVENT,
-            'title' => 'Test Event',
-            'slug' => 'test-event',
-            'body' => '<p>This is a test event</p>',
-            'created_by' => 1,
-            'starts_at' => Carbon::now(),
-            'ends_at' => Carbon::now()->addDays(2),
-            'allow_signups' => true,
-            'last_signup_at' => Carbon::now()->addDays(1),
-        ]);
-
-        Content::create([
-            'active' => true,
-            'type' => ContentType::EVENT,
-            'title' => 'Test Event 2',
-            'slug' => 'test-event-2',
-            'body' => '<p>This is a test event 2</p>',
-            'created_by' => 1,
-            'starts_at' => Carbon::now()->addDays(2),
-            'ends_at' => Carbon::now()->addDays(4),
-            'allow_signups' => true,
-            'last_signup_at' => Carbon::now()->addDays(3),
-        ]);
-
-        Content::create([
-            'active' => true,
-            'type' => ContentType::EVENT,
-            'title' => 'Test Event 3',
-            'slug' => 'test-event-3',
-            'body' => '<p>This is a test event 3</p>',
-            'created_by' => 1,
-            'starts_at' => Carbon::now()->addDays(4),
-            'ends_at' => Carbon::now()->addDays(6),
-            'allow_signups' => true,
-            'last_signup_at' => Carbon::now()->addDays(5),
-        ]);
-
-        Content::create([
-            'active' => true,
-            'type' => ContentType::EVENT,
-            'title' => 'Test Event 4',
-            'slug' => 'test-event-4',
-            'body' => '<p>This is a test event 4</p>',
-            'created_by' => 1,
-            'starts_at' => Carbon::now()->addDays(6),
-            'ends_at' => Carbon::now()->addDays(8),
-            'allow_signups' => true,
-            'last_signup_at' => Carbon::now()->addDays(7),
-        ]);
+        for($i = 0; $i < 30; $i++) {
+            Content::create([
+                'active' => true,
+                'type' => ContentType::MEMO,
+                'title' => 'Test Memo ' . $i,
+                'slug' => 'test-memo-' . $i,
+                'body' => '<p>This is a test memo ' . $i . '</p>',
+                'created_by' => 1
+            ]);
+            Content::create([
+                'active' => true,
+                'type' => ContentType::EVENT,
+                'title' => 'Test Event ' . $i,
+                'slug' => 'test-event-' . $i,
+                'body' => '<p>This is a test event ' . $i . '</p>',
+                'created_by' => 1,
+                'starts_at' => Carbon::now()->addDays($i),
+                'ends_at' => Carbon::now()->addDays($i + 4),
+                'allow_signups' => true,
+                'last_signup_at' => Carbon::now()->addDays($i + 1),
+            ]);
+        }
     }
 }
