@@ -77,7 +77,7 @@ export default function Form({form, types, file_list = []}) {
                             'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount'
                         ],
                         toolbar: 'undo redo | bold italic | bullist numlist outdent indent | removeformat',
-                        content_style: 'body { font-family:Figtree, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; font-size: 0.875rem }'
+                        content_style: 'body { font-family:Figtree, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; font-size: 1rem }'
                     }}
                     onChange={(e) => form.setData('body', editorRef.current.getContent())}
                 />

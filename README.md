@@ -31,3 +31,7 @@ If at any point you want to reset the database, you can run `php artisan migrate
 
 ## Development
 ### To-do list
+- [ ] Add search on recipient list
+- [ ] Add email preview
+- [ ] Add email templates
+- [ ] Implement sending the email with queue or in the browser

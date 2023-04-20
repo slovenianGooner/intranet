@@ -44,7 +44,7 @@ const Index = function ({contents, canCreateContent, canEditContents, query, typ
                         className="divide-y divide-gray-100 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">
                         {contents.data.map((content) => (
                             <li key={content.id}
-                                className="relative flex justify-between gap-x-6 px-4 py-5 hover:bg-gray-50 sm:px-6">
+                                className="relative flex flex-col md:flex-row space-y-2 md:space-y-0 justify-between gap-x-6 px-4 py-5 hover:bg-gray-50 sm:px-6">
                                 <div className="min-w-0">
                                     <div className="flex items-start gap-x-3">
                                         <p className="text-sm font-semibold leading-6 text-gray-900">{content.title}</p>
@@ -90,7 +90,7 @@ const Index = function ({contents, canCreateContent, canEditContents, query, typ
                                 <div className="flex flex-none items-center gap-x-4">
                                     <Link
                                         href={route('contents.show', {content: content.id, ...query})}
-                                        className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
+                                        className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                                     >
                                         View more<span className="sr-only">, {content.title}</span>
                                     </Link>
