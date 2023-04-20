@@ -54,7 +54,13 @@ class ContentsController extends Controller
         try {
             $this->authorize('create', Content::class);
 
-            Content::create($request->validated());
+            $content = Content::create($request->validated());
+
+            if ($request->hasFile("files")) {
+                foreach ($request->file("files") as $file) {
+                    $content->addMedia($file)->toMediaCollection("files");
+                }
+            }
 
             return redirect()->route('contents.index', $request->query())->with('success', 'Content created successfully!');
         } catch (Throwable $e) {
@@ -90,6 +96,18 @@ class ContentsController extends Controller
 
             $content->update($request->validated());
 
+            if (count($request->validated("delete_files"))) {
+                foreach ($request->validated("delete_files") as $file) {
+                    $content->getMedia("files")->where("id", $file)->first()->delete();
+                }
+            }
+
+            if ($request->hasFile("files")) {
+                foreach ($request->file("files") as $file) {
+                    $content->addMedia($file)->toMediaCollection("files");
+                }
+            }
+
             return redirect()->route('contents.show', array_merge(["content" => $content->id], $request->query()))->with('success', 'Content updated successfully!');
         } catch (Throwable $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong! Please try again later.");
@@ -101,6 +119,7 @@ class ContentsController extends Controller
         try {
             $this->authorize('delete', $content);
 
+            $content->media()->delete();
             $content->delete();
 
             return redirect()->route('contents.index', $request->query())->with('success', 'Content deleted successfully!');

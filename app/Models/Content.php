@@ -5,9 +5,13 @@ namespace App\Models;
 use App\DTO\ContentType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Content extends Model
+class Content extends Model implements HasMedia
 {
+    use InteractsWithMedia;
+
     protected $fillable = [
         'active',
         'type',
@@ -34,4 +38,6 @@ class Content extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+
 }

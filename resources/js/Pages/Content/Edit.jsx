@@ -9,7 +9,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 
 const Edit = function ({query, content, types, canDeleteContent}) {
     const [confirmingContentDeletion, setConfirmingContentDeletion] = useState(false);
-    const form = useForm({...content});
+    const form = useForm({...content, files: [], delete_files: []});
 
     const submit = (e) => {
         form.post(route('contents.update', {_method: 'PATCH', content: content.id, ...query}));
@@ -33,7 +33,7 @@ const Edit = function ({query, content, types, canDeleteContent}) {
                         <h3 className="text-base font-semibold leading-6 text-gray-900">Edit Content</h3>
                     </div>
                     <div className="px-4 py-5 sm:p-6">
-                        <Form form={form} types={types}/>
+                        <Form form={form} types={types} file-list={content.file_list}/>
                     </div>
                     <div className="px-4 py-4 sm:px-6 flex justify-between">
                         <div>

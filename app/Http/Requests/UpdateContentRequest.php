@@ -23,6 +23,7 @@ class UpdateContentRequest extends FormRequest
             'created_by' => ['integer', 'required'],
             'allow_signups' => ['boolean'],
             'last_signup_at' => ['present', 'date', 'nullable', 'required_if:allow_signups,==,true', 'before_or_equal:starts_at', 'after_or_equal:now'],
+            'delete_files' => ['present', 'array'],
         ];
     }
 
@@ -35,6 +36,7 @@ class UpdateContentRequest extends FormRequest
             'ends_at' => $this->input('type') === ContentType::EVENT->value ? $this->input('ends_at') : null,
             'allow_signups' => $this->input('type') === ContentType::EVENT->value ? $this->input('allow_signups') : false,
             'last_signup_at' => $this->input('allow_signups') ? $this->input('last_signup_at') : null,
+            'delete_files' => $this->input('delete_files') ?? [],
         ]);
     }
 }

@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "@heroicons/react": "^2.0.17",
+        "@tailwindcss/typography": "^0.5.9",
         "@tinymce/tinymce-react": "^4.3.0",
         "fs-extra": "^11.1.1",
         "react-datetime-picker": "^5.0.3",

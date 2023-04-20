@@ -19,6 +19,12 @@ class ContentListResource extends JsonResource
             'type' => $this->type,
             'title' => $this->title,
             'body' => $this->body,
+            'files' => $this->getMedia('files')->map(fn($file) => [
+                'id' => $file->id,
+                'name' => $file->file_name,
+                'size' => $file->human_readable_size,
+                'url' => $file->getUrl(),
+            ]),
             'starts_at' => $this->starts_at?->format('d.m.Y H:i'),
             'ends_at' => $this->ends_at?->format('d.m.Y H:i'),
             'created_by' => $this->author?->name,

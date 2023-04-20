@@ -5,7 +5,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import Form from "@/Pages/Content/Form";
 
 const Create = function ({query, content, types}) {
-    const form = useForm({...content});
+    const form = useForm({...content, files: []});
 
     const submit = (e) => {
         form.post(route('contents.store', {...query}));
