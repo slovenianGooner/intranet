@@ -52,7 +52,7 @@ class RolesController extends Controller
 
             Role::create($request->validated());
 
-            return redirect()->route('roles.index')->with('success', 'Role created successfully.');
+            return redirect()->route('roles.index', $request->query())->with('success', 'Role created successfully.');
         } catch (Throwable $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong.");
         }
@@ -75,20 +75,20 @@ class RolesController extends Controller
 
             $role->update($request->validated());
 
-            return redirect()->route('roles.index')->with('success', 'Role updated successfully.');
+            return redirect()->route('roles.index', $request->query())->with('success', 'Role updated successfully.');
         } catch (Throwable $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong.");
         }
     }
 
-    public function destroy(Role $role)
+    public function destroy(Request $request, Role $role)
     {
         try {
             $this->authorize('delete', $role);
 
             $role->delete();
 
-            return redirect()->route('roles.index')->with('success', 'Role deleted successfully.');
+            return redirect()->route('roles.index', $request->query())->with('success', 'Role deleted successfully.');
         } catch (Exception $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong.");
         }

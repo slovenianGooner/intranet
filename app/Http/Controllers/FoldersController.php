@@ -43,7 +43,7 @@ class FoldersController extends Controller
 
             Folder::create($request->validated());
 
-            return redirect()->route('folders.index')->with('success', 'Folder created successfully!');
+            return redirect()->route('folders.index', $request->query())->with('success', 'Folder created successfully!');
         } catch (Throwable $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong! Please try again later.");
         }
@@ -72,7 +72,7 @@ class FoldersController extends Controller
                 $folder->moveToRightOf($neighbour);
             }
 
-            return redirect()->route('folders.index')->with('success', 'Folders sorted successfully!');
+            return redirect()->route('folders.index', $request->query())->with('success', 'Folders sorted successfully!');
         } catch (Throwable $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong! Please try again later.");
         }
@@ -85,20 +85,20 @@ class FoldersController extends Controller
 
             $folder->update($request->validated());
 
-            return redirect()->route('folders.index')->with('success', 'Folder updated successfully!');
+            return redirect()->route('folders.index', $request->query())->with('success', 'Folder updated successfully!');
         } catch (Throwable $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong! Please try again later.");
         }
     }
 
-    public function destroy(Folder $folder)
+    public function destroy(Request $request, Folder $folder)
     {
         try {
             $this->authorize('delete', $folder);
 
             $folder->delete();
 
-            return redirect()->route('folders.index')->with('success', 'Folder deleted successfully!');
+            return redirect()->route('folders.index', $request->query())->with('success', 'Folder deleted successfully!');
         } catch (Throwable $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong! Please try again later.");
         }

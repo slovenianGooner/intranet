@@ -102,7 +102,7 @@ class UsersController extends Controller
 
             $user->syncPermissions($permissions);
 
-            return redirect()->route('users.index')->with('success', 'User created successfully.');
+            return redirect()->route('users.index', $request->query())->with('success', 'User created successfully.');
         } catch (Throwable $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong.");
        }
@@ -161,7 +161,7 @@ class UsersController extends Controller
 
             $user->syncPermissions($permissions);
 
-            return redirect()->route('users.index')->with('success', 'User updated successfully.');
+            return redirect()->route('users.index', $request->query())->with('success', 'User updated successfully.');
         } catch (Throwable $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong.");
         }
@@ -174,7 +174,7 @@ class UsersController extends Controller
 
             $user->delete();
 
-            return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+           return redirect()->route('users.index', $request->query())->with('success', 'User deleted successfully.');
         } catch (Throwable $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong.");
        }

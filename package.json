@@ -2,7 +2,8 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "postinstall": "node ./postinstall.js"
     },
     "devDependencies": {
         "@headlessui/react": "^1.7.14",
@@ -20,6 +21,10 @@
     },
     "dependencies": {
         "@heroicons/react": "^2.0.17",
-        "sortablejs": "^1.15.0"
+        "@tinymce/tinymce-react": "^4.3.0",
+        "fs-extra": "^11.1.1",
+        "react-datetime-picker": "^5.0.3",
+        "sortablejs": "^1.15.0",
+        "tinymce": "^6.4.1"
     }
 }

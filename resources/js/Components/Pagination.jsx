@@ -11,7 +11,7 @@ export default function Pagination({data, query}) {
                     {data.prev_page_url && (
                         <Link
                             href={data.prev_page_url}
-                            className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                            className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                         >
                             Previous
                         </Link>
@@ -21,7 +21,7 @@ export default function Pagination({data, query}) {
                     {data.next_page_url && (
                         <Link
                             href={data.next_page_url}
-                            className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                            className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                         >
                             Next
                         </Link>
@@ -42,8 +42,8 @@ export default function Pagination({data, query}) {
                                 <Link href={link.url} key={link.label}
                                       className={
                                           classNames(
-                                              link.active ? 'relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
-                                                  : 'relative inline-flex items-center bg-white px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0',
+                                              link.active ? 'relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+                                                  : 'relative inline-flex items-center bg-white px-4 py-2 text-sm text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0',
                                               index === 0 ? 'rounded-l-md' : '',
                                               index === data.links.length - 1 ? 'rounded-r-md' : ''
                                           )

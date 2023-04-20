@@ -30,7 +30,7 @@ class Content extends Model
         'last_signup_at' => 'datetime',
     ];
 
-    public function user(): BelongsTo
+    public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }

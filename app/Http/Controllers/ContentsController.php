@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\DTO\ContentType;
 use App\Http\Requests\StoreContentRequest;
+use App\Http\Requests\UpdateContentRequest;
 use App\Http\Resources\ContentFormResource;
+use App\Http\Resources\ContentListResource;
 use App\Models\Content;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Throwable;
+use function array_merge;
 
 class ContentsController extends Controller
 {
@@ -16,7 +19,7 @@ class ContentsController extends Controller
     {
         $this->authorize('viewAny', Content::class);
 
-        $contents = Content::query()->when(
+        $contents = Content::query()->with('author')->when(
             request()->query('search'),
             function ($query) {
                 $query->where('title', 'like', '%' . request()->query('search') . '%');
@@ -26,13 +29,7 @@ class ContentsController extends Controller
             function ($query) {
                 $query->where('type', request()->query('type'));
             }
-        )->latest()->paginate(10)->withQueryString()->through(function (Content $content) {
-            return [
-                'id' => $content->id,
-                'title' => $content->title,
-                'type' => $content->type
-            ];
-        });
+        )->latest()->paginate(10)->withQueryString()->through(fn(Content $content) => new ContentListResource($content));
 
         return Inertia::render('Content/Index', [
             'contents' => $contents,
@@ -48,6 +45,7 @@ class ContentsController extends Controller
 
         return Inertia::render('Content/Create', [
             'content' => new ContentFormResource(null),
+            'types' => ContentType::namedCases()->values(),
         ]);
     }
 
@@ -58,10 +56,20 @@ class ContentsController extends Controller
 
             Content::create($request->validated());
 
-            return redirect()->route('content.index')->with('success', 'Content created successfully!');
+            return redirect()->route('contents.index', $request->query())->with('success', 'Content created successfully!');
         } catch (Throwable $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong! Please try again later.");
         }
+    }
+
+    public function show(Request $request, Content $content)
+    {
+        $this->authorize('view', $content);
+
+        return Inertia::render('Content/Show', [
+            'content' => new ContentListResource($content),
+            'canEditContent' => $request->user()->can('update', $content)
+        ]);
     }
 
     public function edit(Request $request, Content $content)
@@ -70,31 +78,32 @@ class ContentsController extends Controller
 
         return Inertia::render('Content/Edit', [
             'content' => new ContentFormResource($content),
+            'types' => ContentType::namedCases()->values(),
             'canDeleteContent' => $request->user()->can('delete', $content)
         ]);
     }
 
-    public function update(StoreContentRequest $request, Content $content)
+    public function update(UpdateContentRequest $request, Content $content)
     {
         try {
             $this->authorize('update', $content);
 
             $content->update($request->validated());
 
-            return redirect()->route('content.index')->with('success', 'Content updated successfully!');
+            return redirect()->route('contents.show', array_merge(["content" => $content->id], $request->query()))->with('success', 'Content updated successfully!');
         } catch (Throwable $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong! Please try again later.");
         }
     }
 
-    public function destroy(Content $content)
+    public function destroy(Request $request, Content $content)
     {
         try {
             $this->authorize('delete', $content);
 
             $content->delete();
 
-            return redirect()->route('content.index')->with('success', 'Content deleted successfully!');
+            return redirect()->route('contents.index', $request->query())->with('success', 'Content deleted successfully!');
         } catch (Throwable $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong! Please try again later.");
         }

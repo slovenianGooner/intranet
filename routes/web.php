@@ -50,6 +50,7 @@ Route::group(["middleware" => ["auth", "verified"]], function () {
     Route::get('/contents', [ContentsController::class, 'index'])->name('contents.index')->can("contents");
     Route::get('/contents/create', [ContentsController::class, 'create'])->name('contents.create')->can("contents.create");
     Route::post('/contents', [ContentsController::class, 'store'])->name('contents.store')->can("contents.create");
+    Route::get('/contents/{content}', [ContentsController::class, 'show'])->name('contents.show')->can("contents.show");
     Route::get('/contents/{content}/edit', [ContentsController::class, 'edit'])->name('contents.edit')->can("contents.edit");
     Route::patch('/contents/{content}', [ContentsController::class, 'update'])->name('contents.update')->can("contents.edit");
     Route::delete('/contents/{content}', [ContentsController::class, 'destroy'])->name('contents.destroy')->can("contents.destroy");

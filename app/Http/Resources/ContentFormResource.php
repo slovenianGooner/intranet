@@ -9,12 +9,14 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /** @mixin \App\Models\Content */
 class ContentFormResource extends JsonResource
 {
+    public static $wrap = false;
+
     public function toArray(Request $request): array
     {
         return [
             'id' => $this->resource?->id,
             'active' => $this->resource?->active ?? true,
-            'type' => $this->resource?->type ?? ContentType::MEMO,
+            'type' => $this->resource?->type ?? ContentType::EVENT,
             'title' => $this->resource?->title ?? '',
             'body' => $this->resource?->body ?? '',
             'starts_at' => $this->resource?->starts_at ?? null,

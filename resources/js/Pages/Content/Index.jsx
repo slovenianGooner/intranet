@@ -4,6 +4,7 @@ import SearchInput from "@/Components/SearchInput";
 import SelectInput from "@/Components/SelectInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import Pagination from "@/Components/Pagination";
+import {classNames} from "@/Hooks/useClassNames";
 
 const Index = function ({contents, canCreateContent, canEditContents, query, types}) {
     let search = (value) => {
@@ -39,51 +40,67 @@ const Index = function ({contents, canCreateContent, canEditContents, query, typ
                     <SelectInput options={types} value={query.type} submit={filterByType} className="w-full md:w-64"/>
                 </div>
                 <div className="mt-8 flow-root">
-                    <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-                                <table className="min-w-full divide-y divide-gray-300">
-                                    <thead className="bg-gray-50">
-                                    <tr>
-                                        <th scope="col"
-                                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Title
-                                        </th>
-                                        <th scope="col"
-                                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Type
-                                        </th>
-                                        <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                                            <span className="sr-only">Edit</span>
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody className="bg-white divide-y divide-gray-200">
-                                    {contents.data.map((content) => (
-                                        <tr key={content.id}>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                {content.title}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                {content.type}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                {canEditContents && <Link
-                                                    href={route('contents.edit', {content: content.id, ...query})}
-                                                    className="text-indigo-600 hover:text-indigo-900">
-                                                    Edit<span className="sr-only">, {content.title}</span>
-                                                </Link>}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    <ul role="list"
+                        className="divide-y divide-gray-100 bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">
+                        {contents.data.map((content) => (
+                            <li key={content.id}
+                                className="relative flex justify-between gap-x-6 px-4 py-5 hover:bg-gray-50 sm:px-6">
+                                <div className="min-w-0">
+                                    <div className="flex items-start gap-x-3">
+                                        <p className="text-sm font-semibold leading-6 text-gray-900">{content.title}</p>
+                                        <p className={classNames(
+                                            content.type === 'memo' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800',
+                                            'rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset'
+                                        )}>
+                                            {content.type}
+                                        </p>
+                                    </div>
+                                    <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
+                                        {content.type === 'event' && (
+                                            <>
+                                                <p className="whitespace-nowrap">
+                                                    Starts at: <time
+                                                    dateTime={content.starts_at}>{content.starts_at}</time>
+                                                </p>
+                                                <svg viewBox="0 0 2 2" className="h-0.5 w-0.5 fill-current">
+                                                    <circle cx={1} cy={1} r={1}/>
+                                                </svg>
+                                                <p className="whitespace-nowrap">
+                                                    Ends at: <time dateTime={content.ends_at}>{content.ends_at}</time>
+                                                </p>
+                                                <svg viewBox="0 0 2 2" className="h-0.5 w-0.5 fill-current">
+                                                    <circle cx={1} cy={1} r={1}/>
+                                                </svg>
+                                            </>
+                                        )}
+                                        {content.type === 'memo' && (
+                                            <>
+                                                <p className="whitespace-nowrap">
+                                                    Created on <time
+                                                    dateTime={content.created_at}>{content.created_at}</time>
+                                                </p>
+                                                <svg viewBox="0 0 2 2" className="h-0.5 w-0.5 fill-current">
+                                                    <circle cx={1} cy={1} r={1}/>
+                                                </svg>
+                                            </>
+                                        )}
+                                        <p className="truncate">Created by {content.created_by}</p>
+                                    </div>
+                                </div>
+                                <div className="flex flex-none items-center gap-x-4">
+                                    <Link
+                                        href={route('contents.show', {content: content.id, ...query})}
+                                        className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
+                                    >
+                                        View more<span className="sr-only">, {content.title}</span>
+                                    </Link>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
                 <div className="flex justify-end mt-8">
-                    <Pagination query={query} data={contents} />
+                    <Pagination query={query} data={contents}/>
                 </div>
             </div>
         </>
