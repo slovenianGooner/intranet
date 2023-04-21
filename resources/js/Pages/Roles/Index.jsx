@@ -2,6 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {Head, Link, router} from "@inertiajs/react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SearchInput from "@/Components/SearchInput";
+import {PlusIcon} from "@heroicons/react/24/solid";
 
 const Index = function({canCreateRole, canEditRoles, query, roles}) {
     let search = (value) => {
@@ -24,6 +25,7 @@ const Index = function({canCreateRole, canEditRoles, query, roles}) {
                         {canCreateRole && <PrimaryButton
                             onClick={(e) => router.get(route('roles.create', {...query}))}
                         >
+                            <PlusIcon className="mr-2 h-4 w-4" aria-hidden="true"/>
                             Add role
                         </PrimaryButton>}
                     </div>

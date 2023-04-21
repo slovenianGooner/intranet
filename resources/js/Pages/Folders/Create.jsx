@@ -3,6 +3,7 @@ import {Head, router, useForm} from "@inertiajs/react";
 import SecondaryButton from "@/Components/SecondaryButton";
 import PrimaryButton from "@/Components/PrimaryButton";
 import Form from "@/Pages/Folders/Form";
+import FloppyDiskIcon from "@/Components/Icons/FloppyDiskIcon";
 
 const Create = function ({query, folder, parentFolders }) {
     const form = useForm({...folder});
@@ -24,8 +25,12 @@ const Create = function ({query, folder, parentFolders }) {
                         <Form form={form} parentFolders={parentFolders}/>
                     </div>
                     <div className="px-4 py-4 sm:px-6 flex justify-end space-x-2">
-                        <SecondaryButton onClick={(e) => router.get(route('folders.index', {...query}))}>Cancel</SecondaryButton>
-                        <PrimaryButton onClick={(e) => submit(e)}>Save</PrimaryButton>
+                        <SecondaryButton
+                            onClick={(e) => router.get(route('folders.index', {...query}))}>Cancel</SecondaryButton>
+                        <PrimaryButton onClick={(e) => submit(e)}>
+                            <FloppyDiskIcon className="h-4 w-4 mr-2"/>
+                            Save
+                        </PrimaryButton>
                     </div>
                 </div>
             </div>

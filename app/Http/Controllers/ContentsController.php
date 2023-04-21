@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Throwable;
 use function array_merge;
+use function collect;
 
 class ContentsController extends Controller
 {
@@ -108,7 +109,7 @@ class ContentsController extends Controller
                 }
             }
 
-            return redirect()->route('contents.show', array_merge(["content" => $content->id], $request->query()))->with('success', 'Content updated successfully!');
+            return redirect()->route('contents.show', array_merge(["content" => $content->id], collect($request->query())->except(['_method'])->toArray()))->with('success', 'Content updated successfully!');
         } catch (Throwable $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong! Please try again later.");
         }

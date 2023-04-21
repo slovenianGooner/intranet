@@ -6,13 +6,24 @@ import Form from "@/Pages/Users/Form";
 import DangerButton from "@/Components/DangerButton";
 import {useState} from "react";
 import Modal from "@/Components/Modal";
+import FloppyDiskIcon from "@/Components/Icons/FloppyDiskIcon";
+import TrashIcon from "@/Components/Icons/TrashIcon";
 
-const Edit = function({query, auth, user, roles, customDataTypes, canEditUserRoles, canDeleteUser, canBeImpersonated}) {
+const Edit = function ({
+                           query,
+                           auth,
+                           user,
+                           roles,
+                           customDataTypes,
+                           canEditUserRoles,
+                           canDeleteUser,
+                           canBeImpersonated
+                       }) {
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
     const form = useForm({...user, password: '', password_confirmation: ''});
 
     const submit = (e) => {
-        form.post(route('users.update', { _method: 'PATCH', user: user.id, ...query}));
+        form.post(route('users.update', {_method: 'PATCH', user: user.id, ...query}));
     }
 
     const confirmUserDeletion = () => {
@@ -44,6 +55,7 @@ const Edit = function({query, auth, user, roles, customDataTypes, canEditUserRol
                                     <DangerButton
                                         onClick={confirmUserDeletion}
                                     >
+                                        <TrashIcon className="w-4 h-4 mr-2"/>
                                         Delete
                                     </DangerButton>
 
@@ -65,10 +77,14 @@ const Edit = function({query, auth, user, roles, customDataTypes, canEditUserRol
                                 </div>
                             }
                         </div>
-                        <div className="space-x-2">
+                        <div className="flex justify-end items-center space-x-2">
                             <SecondaryButton
+                                className="h-full"
                                 onClick={(e) => router.get(route('users.index', {...query}))}>Cancel</SecondaryButton>
-                            <PrimaryButton onClick={(e) => submit(e)}>Save</PrimaryButton>
+                            <PrimaryButton onClick={(e) => submit(e)}>
+                                <FloppyDiskIcon className="w-4 h-4 mr-2"/>
+                                Save
+                            </PrimaryButton>
                         </div>
                     </div>
                 </div>

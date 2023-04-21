@@ -56,9 +56,11 @@ Route::group(["middleware" => ["auth", "verified"]], function () {
     Route::patch('/contents/{content}', [ContentsController::class, 'update'])->name('contents.update')->can("contents.edit");
     Route::delete('/contents/{content}', [ContentsController::class, 'destroy'])->name('contents.destroy')->can("contents.destroy");
 
-    Route::get('/contents/{content}/notify', [NotificationsController::class, 'showRecipients'])->name('contents.notifications.showRecipients')->can("contents.create");
+    Route::get('/contents/{content}/notify/recipients', [NotificationsController::class, 'showRecipients'])->name('contents.notifications.showRecipients')->can("contents.create");
+    Route::post('/contents/{content}/notify/recipients', [NotificationsController::class, 'storeRecipients'])->name('contents.notifications.storeRecipients')->can("contents.create");
     Route::get('/contents/{content}/notify/preview', [NotificationsController::class, 'preview'])->name('contents.notifications.preview')->can("contents.create");
     Route::post('/contents/{content}/notify/send', [NotificationsController::class, 'send'])->name('contents.notifications.send')->can("contents.create");
+    Route::get('/contents/{content}/notify/super-preview', [NotificationsController::class, 'superPreview'])->name('contents.notifications.superPreview');
 
     Route::impersonate();
 });

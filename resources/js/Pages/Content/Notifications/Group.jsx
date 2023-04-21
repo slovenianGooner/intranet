@@ -1,10 +1,12 @@
-import {useState} from "react";
+import {forwardRef, useEffect, useImperativeHandle, useRef, useState} from "react";
 import {MinusIcon, PlusIcon} from "@heroicons/react/20/solid";
 import Checkbox from "@/Components/Checkbox";
+import User from "@/Pages/Content/Notifications/User";
 
-const Group = ({role, recipients, setRecipients}) => {
+
+export default forwardRef(function ({role, recipients, setRecipients}, ref) {
+    const group = ref ? ref : useRef();
     const [open, setOpen] = useState(false)
-
 
     const selectAll = () => {
         // Only add those recipients that are not already in the list
@@ -16,8 +18,8 @@ const Group = ({role, recipients, setRecipients}) => {
     }
 
     return (
-        <fieldset>
-            <div className="px-4 py-2 sm:px-6 flex justify-between items-center">
+        <fieldset ref={group}>
+            <div className="px-4 py-3 sm:px-6 flex justify-between items-center">
                 <button className="flex items-center space-x-1" onClick={() => setOpen(!open)}>
                     <legend className="text-base font-semibold leading-6 text-gray-900">{role.name}</legend>
                     <div>
@@ -36,36 +38,10 @@ const Group = ({role, recipients, setRecipients}) => {
             {open && (
                 <div className="divide-y divide-gray-200 border-b border-t border-gray-200">
                     {role.users.map((user) => (
-                        <div key={user.id} className="relative flex items-start px-4 py-2 sm:px-6">
-                            <div className="min-w-0 flex-1 text-sm leading-6">
-                                <label htmlFor={`user-${user.id}`} className="select-none font-medium text-gray-900">
-                                    {user.name}
-                                </label>
-                                <div className="text-gray-500">
-                                    {user.email}
-                                </div>
-                            </div>
-                            <div className="ml-3 flex h-6 items-center">
-                                <Checkbox
-                                    id={`user-${user.id}`}
-                                    name="recipients[]"
-                                    value={user.id}
-                                    checked={recipients.includes(user.id)}
-                                    onChange={(e) => {
-                                        if (e.target.checked) {
-                                            setRecipients([...recipients, user.id])
-                                        } else {
-                                            setRecipients(recipients.filter((recipient) => recipient !== user.id))
-                                        }
-                                    }}
-                                />
-                            </div>
-                        </div>
+                        <User key={user.id} user={user} recipients={recipients} setRecipients={setRecipients}/>
                     ))}
                 </div>
             )}
         </fieldset>
     )
-}
-
-export default Group
+});

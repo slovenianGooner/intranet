@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
 use Throwable;
+use function collect;
 use function redirect;
 
 class RolesController extends Controller
@@ -75,7 +76,7 @@ class RolesController extends Controller
 
             $role->update($request->validated());
 
-            return redirect()->route('roles.index', $request->query())->with('success', 'Role updated successfully.');
+            return redirect()->route('roles.index', collect($request->query())->except(['_method'])->toArray())->with('success', 'Role updated successfully.');
         } catch (Throwable $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong.");
         }

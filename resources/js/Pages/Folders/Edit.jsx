@@ -6,6 +6,8 @@ import SecondaryButton from "@/Components/SecondaryButton";
 import PrimaryButton from "@/Components/PrimaryButton";
 import Modal from "@/Components/Modal";
 import Form from "@/Pages/Folders/Form";
+import FloppyDiskIcon from "@/Components/Icons/FloppyDiskIcon";
+import TrashIcon from "@/Components/Icons/TrashIcon";
 
 const Edit = function ({query, folder, parentFolders, canDeleteFolder}) {
     const [confirmingFolderDeletion, setConfirmingFolderDeletion] = useState(false);
@@ -42,6 +44,7 @@ const Edit = function ({query, folder, parentFolders, canDeleteFolder}) {
                                     <DangerButton
                                         onClick={confirmFolderDeletion}
                                     >
+                                        <TrashIcon className="h-4 w-4 mr-2"/>
                                         Delete
                                     </DangerButton>
 
@@ -64,9 +67,13 @@ const Edit = function ({query, folder, parentFolders, canDeleteFolder}) {
                                 </div>
                             }
                         </div>
-                        <div className="space-x-2">
-                            <SecondaryButton onClick={(e) => router.get(route('folders.index', {...query}))}>Cancel</SecondaryButton>
-                            <PrimaryButton onClick={(e) => submit()}>Save</PrimaryButton>
+                        <div className="space-x-2 flex justify-end">
+                            <SecondaryButton
+                                onClick={(e) => router.get(route('folders.index', {...query}))}>Cancel</SecondaryButton>
+                            <PrimaryButton onClick={(e) => submit()}>
+                                <FloppyDiskIcon className="h-4 w-4 mr-2"/>
+                                Save
+                            </PrimaryButton>
                         </div>
                     </div>
                 </div>

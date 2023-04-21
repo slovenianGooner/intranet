@@ -14,21 +14,22 @@ class ContentListResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'active' => $this->active,
-            'type' => $this->type,
-            'title' => $this->title,
-            'body' => $this->body,
-            'files' => $this->getMedia('files')->map(fn($file) => [
+            'id' => $this->resource?->id,
+            'active' => $this->resource?->active,
+            'type' => $this->resource?->type,
+            'title' => $this->resource?->title,
+            'body' => $this->resource?->body,
+            'files' => $this->resource?->getMedia('files')->map(fn($file) => [
                 'id' => $file->id,
                 'name' => $file->file_name,
                 'size' => $file->human_readable_size,
                 'url' => $file->getUrl(),
             ]),
-            'starts_at' => $this->starts_at?->format('d.m.Y H:i'),
-            'ends_at' => $this->ends_at?->format('d.m.Y H:i'),
-            'created_by' => $this->author?->name,
-            'created_at' => $this->created_at->format('d.m.Y H:i'),
+            'author' => $this->resource?->author?->name,
+            'starts_at' => $this->resource?->starts_at?->format('d.m.Y H:i'),
+            'ends_at' => $this->resource?->ends_at?->format('d.m.Y H:i'),
+            'created_by' => $this->resource?->author?->name,
+            'created_at' => $this->resource?->created_at->format('d.m.Y H:i'),
         ];
     }
 }

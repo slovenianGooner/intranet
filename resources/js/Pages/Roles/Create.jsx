@@ -3,6 +3,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import Form from "@/Pages/Roles/Form";
+import FloppyDiskIcon from "@/Components/Icons/FloppyDiskIcon";
 
 const Create = function({ query, role }) {
     const form = useForm({ ...role });
@@ -20,11 +21,15 @@ const Create = function({ query, role }) {
                         <h3 className="text-base font-semibold leading-6 text-gray-900">Create Role</h3>
                     </div>
                     <div className="px-4 py-5 sm:p-6">
-                        <Form form={form} />
+                        <Form form={form}/>
                     </div>
                     <div className="px-4 py-4 sm:px-6 flex justify-end space-x-2">
-                        <SecondaryButton onClick={(e) => router.get(route('roles.index', { ...query }))}>Cancel</SecondaryButton>
-                        <PrimaryButton onClick={(e) => submit(e)}>Save</PrimaryButton>
+                        <SecondaryButton
+                            onClick={(e) => router.get(route('roles.index', {...query}))}>Cancel</SecondaryButton>
+                        <PrimaryButton onClick={(e) => submit(e)}>
+                            <FloppyDiskIcon className="h-4 w-4 mr-2"/>
+                            Save
+                        </PrimaryButton>
                     </div>
                 </div>
             </div>

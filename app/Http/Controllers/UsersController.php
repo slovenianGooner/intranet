@@ -161,7 +161,7 @@ class UsersController extends Controller
 
             $user->syncPermissions($permissions);
 
-            return redirect()->route('users.index', $request->query())->with('success', 'User updated successfully.');
+            return redirect()->route('users.index', collect($request->query())->except(['_method'])->toArray())->with('success', 'User updated successfully.');
         } catch (Throwable $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong.");
         }

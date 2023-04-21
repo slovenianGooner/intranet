@@ -33,6 +33,7 @@ const Index = function ({auth, canCreateFolder, canEditFolders, query, folders})
                         {canCreateFolder && <PrimaryButton
                             onClick={(e) => router.get(route('folders.create', { ...query }))}
                         >
+                            <PlusIcon className="mr-2 h-4 w-4" aria-hidden="true"/>
                             Add folder
                         </PrimaryButton>}
                     </div>

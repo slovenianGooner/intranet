@@ -6,6 +6,8 @@ import Modal from "@/Components/Modal";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import Form from "@/Pages/Content/Form";
 import PrimaryButton from "@/Components/PrimaryButton";
+import TrashIcon from "@/Components/Icons/TrashIcon";
+import FloppyDiskIcon from "@/Components/Icons/FloppyDiskIcon";
 
 const Edit = function ({query, content, types, canDeleteContent}) {
     const [confirmingContentDeletion, setConfirmingContentDeletion] = useState(false);
@@ -39,7 +41,10 @@ const Edit = function ({query, content, types, canDeleteContent}) {
                         <div>
                             {canDeleteContent &&
                                 <div>
-                                    <DangerButton onClick={confirmContentDeletion}>Delete</DangerButton>
+                                    <DangerButton onClick={confirmContentDeletion}>
+                                        <TrashIcon className="h-4 w-4 mr-2"/>
+                                        Delete
+                                    </DangerButton>
 
                                     <Modal show={confirmingContentDeletion}
                                            onClose={() => setConfirmingContentDeletion(false)} maxWidth="md">
@@ -61,10 +66,13 @@ const Edit = function ({query, content, types, canDeleteContent}) {
                                 </div>
                             }
                         </div>
-                        <div className="space-x-2">
+                        <div className="space-x-2 flex justify-end">
                             <SecondaryButton
                                 onClick={(e) => router.get(route('contents.show', {content: content.id, ...query}))}>Cancel</SecondaryButton>
-                            <PrimaryButton onClick={(e) => submit()}>Save</PrimaryButton>
+                            <PrimaryButton onClick={(e) => submit()}>
+                                <FloppyDiskIcon className="h-4 w-4 mr-2"/>
+                                Save
+                            </PrimaryButton>
                         </div>
                     </div>
                 </div>

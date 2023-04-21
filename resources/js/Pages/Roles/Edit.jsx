@@ -6,8 +6,10 @@ import Form from "@/Pages/Roles/Form";
 import DangerButton from "@/Components/DangerButton";
 import {useState} from "react";
 import Modal from "@/Components/Modal";
+import FloppyDiskIcon from "@/Components/Icons/FloppyDiskIcon";
+import TrashIcon from "@/Components/Icons/TrashIcon";
 
-const Edit = function({query, role, canDeleteRole}) {
+const Edit = function ({query, role, canDeleteRole}) {
     const [confirmingRoleDeletion, setConfirmingRoleDeletion] = useState(false);
     const form = useForm({...role});
 
@@ -41,6 +43,7 @@ const Edit = function({query, role, canDeleteRole}) {
                                     <DangerButton
                                         onClick={confirmRoleDeletion}
                                     >
+                                        <TrashIcon className="h-4 w-4 mr-2"/>
                                         Delete
                                     </DangerButton>
 
@@ -64,10 +67,13 @@ const Edit = function({query, role, canDeleteRole}) {
                                 </div>
                             }
                         </div>
-                        <div className="space-x-2">
+                        <div className="flex justify-end space-x-2">
                             <SecondaryButton
                                 onClick={(e) => router.get(route('roles.index', {...query}))}>Cancel</SecondaryButton>
-                            <PrimaryButton onClick={(e) => submit(e)}>Save</PrimaryButton>
+                            <PrimaryButton onClick={(e) => submit(e)}>
+                                <FloppyDiskIcon className="h-4 w-4 mr-2"/>
+                                Save
+                            </PrimaryButton>
                         </div>
                     </div>
                 </div>

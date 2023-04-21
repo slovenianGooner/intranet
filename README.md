@@ -25,13 +25,56 @@ php artisan key:generate
 php artisan migrate:fresh --seed
 ```
 
-You can now log in with the super admin account using the email `super-admin@intranet.dev` and the password you set in the `.env` file.
+You can now log in with the super admin account using the email `super-admin@intranet.dev` and the password you set in
+the `.env` file.
 
 If at any point you want to reset the database, you can run `php artisan migrate:fresh --seed` again.
 
+## Sending notifications
+
+To allow sending notifications, you need to set up the mail driver in the `.env` file. Please set the following
+variables:
+
+```bash
+MAIL_MAILER=smtp
+MAIL_HOST=mailpit
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+Change the variables accordingly.
+
+### Queue setup
+
+You can use multiple drivers to send notifications via queue, but the easiest way is to enable the database driver.
+
+To do that you need to migrate the notifications table.
+
+```bash
+php artisan notifications:table
+php artisan migrate
+```
+
+Then you need to change the queue driver in the .env file to database.
+
+```bash
+QUEUE_DRIVER=database
+```
+
+You also need to modify the notification class to use the queue (if not already present).
+The notification should implement the `ShouldQueue` interface and use the `Queuable` trait.
+
+Please see the [Laravel documentation](https://laravel.com/docs/8.x/notifications#queueing-notifications) for more
+information.
+
 ## Development
+
 ### To-do list
+
 - [ ] Add search on recipient list
-- [ ] Add email preview
 - [ ] Add email templates
 - [ ] Implement sending the email with queue or in the browser

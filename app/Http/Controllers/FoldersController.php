@@ -10,6 +10,7 @@ use App\Models\Folder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Throwable;
+use function collect;
 use function config;
 use function redirect;
 
@@ -85,7 +86,7 @@ class FoldersController extends Controller
 
             $folder->update($request->validated());
 
-            return redirect()->route('folders.index', $request->query())->with('success', 'Folder updated successfully!');
+            return redirect()->route('folders.index', collect($request->query())->except(['_method'])->toArray())->with('success', 'Folder updated successfully!');
         } catch (Throwable $e) {
             return redirect()->back()->with('error', config("app.debug") ? $e->getMessage() : "Something went wrong! Please try again later.");
         }

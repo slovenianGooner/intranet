@@ -5,6 +5,7 @@ import SelectInput from "@/Components/SelectInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import Pagination from "@/Components/Pagination";
 import {classNames} from "@/Hooks/useClassNames";
+import {PlusIcon} from "@heroicons/react/24/solid";
 
 const Index = function ({contents, canCreateContent, canEditContents, query, types}) {
     let search = (value) => {
@@ -31,6 +32,7 @@ const Index = function ({contents, canCreateContent, canEditContents, query, typ
                         {canCreateContent && <PrimaryButton
                             onClick={(e) => router.get(route('contents.create', {...query}))}
                         >
+                            <PlusIcon className="mr-2 h-4 w-4" aria-hidden="true"/>
                             Add content
                         </PrimaryButton>}
                     </div>

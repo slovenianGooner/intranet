@@ -4,6 +4,7 @@ import SearchInput from "@/Components/SearchInput";
 import SelectInput from "@/Components/SelectInput";
 import PrimaryButton from "@/Components/PrimaryButton";
 import Pagination from "@/Components/Pagination";
+import {PlusIcon} from "@heroicons/react/24/solid";
 
 const Index = function({ auth, canCreateUser, canEditUsers, query, roles, users }) {
     let search = (value) => {
@@ -30,6 +31,7 @@ const Index = function({ auth, canCreateUser, canEditUsers, query, roles, users 
                         {canCreateUser && <PrimaryButton
                             onClick={(e) => router.get(route('users.create', { ...query }))}
                         >
+                            <PlusIcon className="mr-2 h-4 w-4" aria-hidden="true"/>
                             Add user
                         </PrimaryButton>}
                     </div>

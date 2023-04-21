@@ -1,8 +1,9 @@
-import {usePage, Head, router, useForm} from "@inertiajs/react";
+import {Head, router, useForm} from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import Form from "@/Pages/Users/Form";
+import FloppyDiskIcon from "@/Components/Icons/FloppyDiskIcon";
 
 const Create = function ({ query, user, roles, customDataTypes }) {
     const form = useForm({ ...user, password: '', password_confirmation: '' });
@@ -20,11 +21,15 @@ const Create = function ({ query, user, roles, customDataTypes }) {
                         <h3 className="text-base font-semibold leading-6 text-gray-900">Create User</h3>
                     </div>
                     <div className="px-4 py-5 sm:p-6">
-                        <Form form={form} roles={roles} customDataTypes={customDataTypes} />
+                        <Form form={form} roles={roles} customDataTypes={customDataTypes}/>
                     </div>
                     <div className="px-4 py-4 sm:px-6 flex justify-end space-x-2">
-                        <SecondaryButton onClick={(e) => router.get(route('users.index', { ...query }))}>Cancel</SecondaryButton>
-                        <PrimaryButton onClick={(e) => submit(e)}>Save</PrimaryButton>
+                        <SecondaryButton
+                            onClick={(e) => router.get(route('users.index', {...query}))}>Cancel</SecondaryButton>
+                        <PrimaryButton onClick={(e) => submit(e)}>
+                            <FloppyDiskIcon className="w-4 h-4 mr-2"/>
+                            Save
+                        </PrimaryButton>
                     </div>
                 </div>
             </div>
