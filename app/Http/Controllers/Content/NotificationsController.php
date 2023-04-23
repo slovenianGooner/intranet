@@ -10,6 +10,9 @@ use App\Notifications\ContentNotification;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
+use Throwable;
+use function count;
+use function redirect;
 
 class NotificationsController extends Controller
 {
@@ -73,6 +76,7 @@ class NotificationsController extends Controller
             "content" => new ContentListResource($content),
             "users" => $users,
             "session_recipients" => $recipients,
+            "canSeePreviewInBrowser" => $request->user()->can("preview-in-browser"),
         ]);
     }
 
@@ -83,6 +87,30 @@ class NotificationsController extends Controller
 
     public function send(Request $request, Content $content)
     {
+        try {
+            // Retrieve the recipients from the input
+            $recipients = $request->input("recipients", []);
 
+            // If no recipients found, redirect back to the recipients page
+            if (count($recipients) === 0) {
+                return redirect()->route("contents.notifications.recipients", $content);
+            }
+
+            // Get the users from the database
+            $users = User::whereIn("id", $recipients)->get();
+
+            // Send the notification to each user
+            $users->each(function ($user) use ($content) {
+                $user->notify(new ContentNotification($content));
+            });
+
+            // Clear the session
+            $request->session()->forget("content.{$content->id}.recipients");
+
+            // Redirect to the content list page
+            return redirect()->route("contents.index", $request->query())->with("success", "The notification was sent successfully.");
+        } catch (Throwable $e) {
+            return redirect()->route("contents.notifications.preview", $content)->with("error", config("app.debug") ? $e->getMessage() : "There was an error sending the notification.");
+        }
     }
 }

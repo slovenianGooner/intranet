@@ -52,21 +52,11 @@ Change the variables accordingly.
 
 You can use multiple drivers to send notifications via queue, but the easiest way is to enable the database driver.
 
-To do that you need to migrate the notifications table.
-
-```bash
-php artisan notifications:table
-php artisan migrate
-```
-
-Then you need to change the queue driver in the .env file to database.
+You need to change the queue driver in the .env file to database.
 
 ```bash
 QUEUE_DRIVER=database
 ```
-
-You also need to modify the notification class to use the queue (if not already present).
-The notification should implement the `ShouldQueue` interface and use the `Queuable` trait.
 
 Please see the [Laravel documentation](https://laravel.com/docs/8.x/notifications#queueing-notifications) for more
 information.
@@ -76,5 +66,3 @@ information.
 ### To-do list
 
 - [ ] Add search on recipient list
-- [ ] Add email templates
-- [ ] Implement sending the email with queue or in the browser

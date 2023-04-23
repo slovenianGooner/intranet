@@ -28,6 +28,7 @@ class ContentNotification extends Notification implements ShouldQueue
     public function toMail($notifiable): MailMessage
     {
         return (new MailMessage)
+            ->subject("{$this->content->title}")
             ->markdown('emails.content', ['content' => $this->content->toArray(request())]);
     }
 

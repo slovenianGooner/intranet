@@ -46,6 +46,7 @@ class DatabaseSeeder extends Seeder
 
         Permission::create(['name' => 'notify']);
         Permission::create(['name' => 'login']);
+        Permission::create(['name' => 'preview-in-browser']);
 
         // Create root folder
         Folder::create([

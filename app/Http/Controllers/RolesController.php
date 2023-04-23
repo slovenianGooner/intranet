@@ -33,7 +33,7 @@ class RolesController extends Controller
         return Inertia::render('Roles/Index', [
             'roles' => $roles,
             'canCreateRole' => $request->user()->can('create', Role::class),
-            'canEditRoles' => $request->user()->can('update', Role::class),
+            'canEditRoles' => $request->user()->can('roles.edit'),
         ]);
     }
 
