@@ -9,9 +9,11 @@ use App\Http\Resources\FolderFormResource;
 use App\Models\Folder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 use Throwable;
 use function collect;
 use function config;
+use function dd;
 use function redirect;
 
 class FoldersController extends Controller
@@ -27,13 +29,20 @@ class FoldersController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $this->authorize('create', Folder::class);
 
         return Inertia::render('Folders/Create', [
             "folder" => new FolderFormResource(null),
-            "parentFolders" => Folder::get()->values()
+            "parentFolders" => Folder::get()->values(),
+            'roles' => Role::query()->where('name', '!=', 'Super Admin')->get()->map(function (Role $role) {
+                return [
+                    'value' => $role->name,
+                    'name' => $role->name,
+                ];
+            })->values(),
+            'backUrl' => $request->query('route') ? route($request->query('route'), collect($request->query())->except(['route'])->toArray()) : route('folders.index', $request->query()),
         ]);
     }
 
@@ -42,7 +51,14 @@ class FoldersController extends Controller
         try {
             $this->authorize('create', Folder::class);
 
-            Folder::create($request->validated());
+            $folder = Folder::create($request->validated());
+
+            $folder->syncRoles($request->validated()['roles']);
+
+            // Redirect back to the route with the folder id in the query string if the folder was created from the document list page
+            if ($request->query('folder') and $request->query('route')) {
+                return redirect()->route($request->query('route'), collect($request->query())->except(['route'])->toArray())->with('success', 'Folder created successfully!');
+            }
 
             return redirect()->route('folders.index', $request->query())->with('success', 'Folder created successfully!');
         } catch (Throwable $e) {
@@ -57,7 +73,13 @@ class FoldersController extends Controller
         return Inertia::render('Folders/Edit', [
             'folder' => new FolderFormResource($folder),
             "parentFolders" => Folder::get()->values(),
-            "canDeleteFolder" => $request->user()->can('delete', $folder)
+            "canDeleteFolder" => $request->user()->can('delete', $folder),
+            'roles' => Role::query()->where('name', '!=', 'Super Admin')->get()->map(function (Role $role) {
+                return [
+                    'value' => $role->name,
+                    'name' => $role->name,
+                ];
+            })->values(),
         ]);
     }
 
@@ -84,7 +106,11 @@ class FoldersController extends Controller
         try {
             $this->authorize('update', $folder);
 
-            $folder->update($request->validated());
+            $folder->update(
+                collect($request->validated())->except(['roles'])->toArray()
+            );
+
+            $folder->syncRoles($request->validated()['roles']);
 
             return redirect()->route('folders.index', collect($request->query())->except(['_method'])->toArray())->with('success', 'Folder updated successfully!');
         } catch (Throwable $e) {

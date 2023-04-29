@@ -5,7 +5,7 @@ import SelectInput from "@/Components/SelectInput";
 import TextareaInput from "@/Components/TextareaInput";
 import Checkbox from "@/Components/Checkbox";
 
-export default function Form({form, parentFolders}) {
+export default function Form({form, parentFolders, roles}) {
     return (
         <div className="space-y-6 max-w-lg">
 
@@ -66,6 +66,30 @@ export default function Form({form, parentFolders}) {
                 />
 
                 <InputError className="mt-2" message={form.errors.description}/>
+            </div>
+
+            <div>
+                <InputLabel htmlFor="roles" value="Roles"/>
+
+                <div className="mt-1 grid grid-cols-2 gap-2 border rounded-md p-4">
+                    {roles.map((role) => (
+                        <label key={role.value} className="flex items-center">
+                            <Checkbox
+                                name="roles[]"
+                                value={role.value}
+                                checked={form.data.roles.includes(role.value)}
+                                onChange={
+                                    (e) => form.setData('roles', e.target.checked ?
+                                        [...form.data.roles, role.value] :
+                                        form.data.roles.filter((role) => role !== e.target.value))
+                                }
+                            />
+                            <span className="ml-2 text-sm text-gray-600">{role.name}</span>
+                        </label>
+                    ))}
+                </div>
+
+                <InputError message={form.errors.roles} className="mt-2"/>
             </div>
         </div>
     )

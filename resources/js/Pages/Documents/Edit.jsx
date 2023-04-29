@@ -4,61 +4,61 @@ import DangerButton from "@/Components/DangerButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import Modal from "@/Components/Modal";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import Form from "@/Pages/Content/Form";
+import Form from "@/Pages/Documents/Form";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TrashIcon from "@/Components/Icons/TrashIcon";
 import FloppyDiskIcon from "@/Components/Icons/FloppyDiskIcon";
 
-const Edit = function ({query, content, types, canDeleteContent}) {
-    const [confirmingContentDeletion, setConfirmingContentDeletion] = useState(false);
-    const form = useForm({...content, files: [], delete_files: []});
+const Edit = function ({query, document, canDeleteDocument, cancelUrl, roles}) {
+    const [confirmingDocumentDeletion, setConfirmingDocumentDeletion] = useState(false);
+    const form = useForm({...document, files: [], delete_files: []});
 
     const submit = (e) => {
-        form.post(route('contents.update', {_method: 'PATCH', content: content.id, ...query}));
+        form.post(route('documents.update', {_method: 'PATCH', document: document.id, ...query}));
     }
 
-    const confirmContentDeletion = () => {
-        setConfirmingContentDeletion(true);
+    const confirmDocumentDeletion = () => {
+        setConfirmingDocumentDeletion(true);
     }
 
-    const deleteContent = () => {
-        form.delete(route('contents.destroy', {content: content.id, ...query}));
+    const deleteDocument = () => {
+        form.delete(route('documents.destroy', {document: document.id, ...query}));
     }
 
     return (
         <>
-            <Head title="Edit Content"/>
+            <Head title="Edit Document"/>
 
             <div className="px-4 sm:px-6 lg:px-8 py-8">
                 <div className="divide-y divide-gray-200 rounded-lg bg-white shadow">
                     <div className="px-4 py-5 sm:px-6">
-                        <h3 className="text-base font-semibold leading-6 text-gray-900">Edit Content</h3>
+                        <h3 className="text-base font-semibold leading-6 text-gray-900">Edit Document</h3>
                     </div>
                     <div className="px-4 py-5 sm:p-6">
-                        <Form form={form} types={types} file-list={content.file_list}/>
+                        <Form form={form} file-list={document.file_list} roles={roles}/>
                     </div>
                     <div className="px-4 py-4 sm:px-6 flex justify-between">
                         <div>
-                            {canDeleteContent &&
+                            {canDeleteDocument &&
                                 <div>
-                                    <DangerButton onClick={confirmContentDeletion}>
+                                    <DangerButton onClick={confirmDocumentDeletion}>
                                         <TrashIcon className="h-4 w-4 mr-2"/>
                                         Delete
                                     </DangerButton>
 
-                                    <Modal show={confirmingContentDeletion}
-                                           onClose={() => setConfirmingContentDeletion(false)} maxWidth="md">
+                                    <Modal show={confirmingDocumentDeletion}
+                                           onClose={() => setConfirmingDocumentDeletion(false)} maxWidth="md">
                                         <div className="p-6">
                                             <h2>
-                                                Are you sure you want to delete the content?
+                                                Are you sure you want to delete the document?
                                             </h2>
 
                                             <div className="mt-6 flex justify-end">
                                                 <SecondaryButton
-                                                    onClick={() => setConfirmingContentDeletion(false)}>Cancel</SecondaryButton>
+                                                    onClick={() => setConfirmingDocumentDeletion(false)}>Cancel</SecondaryButton>
 
-                                                <DangerButton className="ml-3" onClick={(e) => deleteContent()}>
-                                                    Delete Content
+                                                <DangerButton className="ml-3" onClick={(e) => deleteDocument()}>
+                                                    Delete Document
                                                 </DangerButton>
                                             </div>
                                         </div>
@@ -68,7 +68,7 @@ const Edit = function ({query, content, types, canDeleteContent}) {
                         </div>
                         <div className="space-x-2 flex justify-end">
                             <SecondaryButton
-                                onClick={(e) => router.get(route('contents.show', {content: content.id, ...query}))}>Cancel</SecondaryButton>
+                                onClick={(e) => router.get(cancelUrl)}>Cancel</SecondaryButton>
                             <PrimaryButton onClick={(e) => submit()}>
                                 <FloppyDiskIcon className="h-4 w-4 mr-2"/>
                                 Save

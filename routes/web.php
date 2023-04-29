@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\Content\NotificationsController;
 use App\Http\Controllers\ContentsController;
+use App\Http\Controllers\DocumentsController;
+use App\Http\Controllers\FileLibraryController;
 use App\Http\Controllers\FoldersController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UsersController;
@@ -61,6 +64,15 @@ Route::group(["middleware" => ["auth", "verified"]], function () {
     Route::get('/contents/{content}/notify/preview', [NotificationsController::class, 'preview'])->name('contents.notifications.preview')->can("contents.create");
     Route::post('/contents/{content}/notify/send', [NotificationsController::class, 'send'])->name('contents.notifications.send')->can("contents.create");
     Route::get('/contents/{content}/notify/super-preview', [NotificationsController::class, 'superPreview'])->name('contents.notifications.superPreview');
+
+    Route::get('/documents/create', [DocumentsController::class, 'create'])->name('documents.create')->can("documents.create");
+    Route::post('/documents', [DocumentsController::class, 'store'])->name('documents.store')->can("documents.create");
+    Route::get('/documents/{document}/edit', [DocumentsController::class, 'edit'])->name('documents.edit')->can("documents.edit");
+    Route::patch('/documents/{document}', [DocumentsController::class, 'update'])->name('documents.update')->can("documents.edit");
+    Route::delete('/documents/{document}', [DocumentsController::class, 'destroy'])->name('documents.destroy')->can("documents.destroy");
+
+    Route::get('/file-library', [FileLibraryController::class, 'index'])->name('file-library.index');
+    Route::get('/file-library/{document}', [FileLibraryController::class, 'show'])->name('file-library.show');
 
     Route::impersonate();
 });

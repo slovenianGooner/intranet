@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\DTO\ContentType;
 use App\Models\Content;
+use App\Models\Document;
 use App\Models\Folder;
 use App\Models\User;
 use Carbon\Carbon;
@@ -41,8 +42,18 @@ class DatabaseSeeder extends Seeder
 
         Permission::create(['name' => 'folders']);
         Permission::create(['name' => 'folders.create']);
+        Permission::create(['name' => 'folders.show']);
         Permission::create(['name' => 'folders.edit']);
         Permission::create(['name' => 'folders.destroy']);
+
+        Permission::create(['name' => 'contents']);
+        Permission::create(['name' => 'contents.create']);
+        Permission::create(['name' => 'contents.edit']);
+        Permission::create(['name' => 'contents.destroy']);
+
+        Permission::create(['name' => 'documents.create']);
+        Permission::create(['name' => 'documents.edit']);
+        Permission::create(['name' => 'documents.destroy']);
 
         Permission::create(['name' => 'notify']);
         Permission::create(['name' => 'login']);
@@ -61,12 +72,19 @@ class DatabaseSeeder extends Seeder
         $this->usersSeeder();
         $this->foldersSeeder();
         $this->contentsSeeder();
+        $this->documentsSeeder();
     }
 
     public function usersSeeder()
     {
         $adminRole = Role::create(['name' => 'Admin']);
-        $adminRole->givePermissionTo('users', 'users.edit', 'users.create', 'users.destroy', 'roles', 'roles.edit', 'roles.create', 'roles.destroy');
+        $adminRole->givePermissionTo(
+            'users', 'users.edit', 'users.create', 'users.destroy',
+            'roles', 'roles.edit', 'roles.create', 'roles.destroy',
+            'folders', 'folders.edit', 'folders.create', 'folders.destroy',
+            'contents', 'contents.edit', 'contents.create', 'contents.destroy',
+            'documents.create', 'documents.edit', 'documents.destroy',
+        );
         $editorRole = Role::create(['name' => 'Editor']);
         $agencyRole = Role::create(['name' => 'Agency']);
 
@@ -258,6 +276,7 @@ class DatabaseSeeder extends Seeder
             'active' => true,
             'parent_id' => $rootFolder->id,
         ]);
+
         $images = $fileLibrary->children()->create([
             'name' => 'Images',
             'slug' => 'images',
@@ -431,6 +450,76 @@ class DatabaseSeeder extends Seeder
 
         foreach ($events as $event) {
             Content::create([...$event, 'type' => ContentType::EVENT, 'created_by' => 1]);
+        }
+    }
+
+    private function documentsSeeder()
+    {
+        $documents = [
+            [
+                'active' => true,
+                'title' => 'Employee Handbook',
+                'slug' => 'employee-handbook',
+                'body' => '<p>This handbook is intended to provide employees with a general overview of the company\'s policies and procedures. It is not intended to be a comprehensive guide, nor does it constitute legal advice.</p><p>Employees should consult their supervisor or HR representative if they have any questions about the information contained in this handbook.</p>',
+            ],
+            [
+                'active' => true,
+                'title' => 'Code of Conduct',
+                'slug' => 'code-of-conduct',
+                'body' => '<p>All employees are expected to conduct themselves in a professional manner at all times. This includes treating others with respect and dignity, maintaining confidentiality, and complying with all applicable laws and regulations.</p><p>Employees who violate this code of conduct may be subject to disciplinary action, up to and including termination of employment.</p>',
+            ],
+            [
+                'active' => true,
+                'title' => 'Employee Benefits',
+                'slug' => 'employee-benefits',
+                'body' => '<p>Employees are eligible for a variety of benefits, including:</p><ul><li>Health insurance</li><li>Dental insurance</li><li>Life insurance</li><li>401(k) plan</li><li>Paid time off</li><li>Flexible spending accounts</li><li>Employee assistance program</li></ul><p>For more information about these benefits, please refer to the employee handbook or contact HR.</p>',
+            ],
+            [
+                'active' => true,
+                'title' => 'Paid Time Off Policy',
+                'slug' => 'paid-time-off-policy',
+                'body' => '<p>All employees are eligible for paid time off, which may be used for vacation, sick leave, or personal days. Employees accrue PTO at a rate of 1.25 days per month, up to a maximum of 15 days per year.</p><p>Employees must submit a request for PTO at least two weeks in advance. Requests will be approved on a first-come, first-served basis, subject to manager approval.</p>',
+            ],
+            [
+                'active' => true,
+                'title' => 'Employee Referral Program',
+                'slug' => 'employee',
+                'body' => '<p>Employees who refer a candidate who is hired and remains employed for at least 90 days will receive a $500 bonus. There is no limit to the number of referrals an employee may make.</p><p>Employees should submit referrals through the company\'s online referral portal. Referrals submitted by other means will not be eligible for the bonus.</p>',
+            ],
+            [
+                'active' => true,
+                'title' => 'Employee Recognition Program',
+                'slug' => 'employee-recognition-program',
+                'body' => '<p>Employees who go above and beyond in their work may be recognized through the company\'s employee recognition program. This program is designed to reward employees for their contributions to the company\'s success.</p><p>Employees may be nominated for recognition by their manager or a peer. Nominations are reviewed by a committee, which selects the winners each month.</p>',
+            ],
+            [
+                'active' => true,
+                'title' => 'Employee Training Program',
+                'slug' => 'employee-training-program',
+                'body' => '<p>All employees are required to complete a training program upon hire. This program covers topics such as workplace safety, sexual harassment prevention, and diversity awareness.</p><p>Employees must complete the training program within 30 days of hire. Failure to do so may result in disciplinary action, up to and including termination of employment.</p>',
+            ],
+            [
+                'active' => true,
+                'title' => 'Employee Wellness Program',
+                'slug' => 'employee-wellness-program',
+                'body' => '<p>The company offers a variety of wellness programs to help employees maintain a healthy lifestyle. These programs include:</p><ul><li>On-site fitness center</li><li>Weight loss program</li><li>Smoking cessation program</li><li>Stress management program</li><li>Health screenings</li><li>Flu shots</li></ul><p>For more information about these programs, please contact HR.</p>',
+            ],
+            [
+                'active' => true,
+                'title' => 'Employee Assistance Program',
+                'slug' => 'employee-assistance-program',
+                'body' => '<p>The company offers an employee assistance program to help employees deal with personal problems that may affect their work performance. This program provides confidential counseling services, as well as referrals to community resources.</p><p>Employees may contact the EAP at any time, 24 hours a day, 7 days a week. All calls are confidential and will not be shared with the company.</p>',
+            ],
+        ];
+
+        foreach ($documents as $document) {
+            Document::create([
+                ...$document,
+                'created_by' => 1,
+                // random folder id
+                'folder_id' => Folder::whereName("File Library")->first()->descendants()->inRandomOrder()->first()->id,
+                'folder_position' => 1
+            ]);
         }
     }
 }

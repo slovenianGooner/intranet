@@ -9,7 +9,7 @@ import Form from "@/Pages/Folders/Form";
 import FloppyDiskIcon from "@/Components/Icons/FloppyDiskIcon";
 import TrashIcon from "@/Components/Icons/TrashIcon";
 
-const Edit = function ({query, folder, parentFolders, canDeleteFolder}) {
+const Edit = function ({query, folder, parentFolders, canDeleteFolder, roles}) {
     const [confirmingFolderDeletion, setConfirmingFolderDeletion] = useState(false);
     const form = useForm({...folder});
 
@@ -35,7 +35,7 @@ const Edit = function ({query, folder, parentFolders, canDeleteFolder}) {
                         <h3 className="text-base font-semibold leading-6 text-gray-900">Edit Folder</h3>
                     </div>
                     <div className="px-4 py-5 sm:p-6">
-                        <Form form={form} parentFolders={parentFolders}/>
+                        <Form form={form} parentFolders={parentFolders} roles={roles}/>
                     </div>
                     <div className="px-4 py-4 sm:px-6 flex justify-between">
                         <div>

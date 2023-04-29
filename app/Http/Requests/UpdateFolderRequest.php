@@ -14,6 +14,7 @@ class UpdateFolderRequest extends FormRequest
             'parent_id' => ['integer'],
             'name' => ['required'],
             'slug' => ['required'],
+            'roles' => ['array'],
             'description' => ['nullable'],
         ];
     }

@@ -64,5 +64,3 @@ information.
 ## Development
 
 ### To-do list
-
-- [ ] Add search on recipient list

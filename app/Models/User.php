@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Gate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -141,6 +142,15 @@ class User extends Authenticatable
                 'icon' => 'DocumentIcon',
                 'href' => route('contents.index'),
                 'current' => Route::is('contents.*'),
+            ];
+        }
+
+        if (Gate::check('view', Folder::whereName("File Library")->first())) {
+            $navigation[] = [
+                'name' => 'File Library',
+                'icon' => 'DocumentTextIcon',
+                'href' => route('file-library.index'),
+                'current' => Route::is('file-library.*'),
             ];
         }
 

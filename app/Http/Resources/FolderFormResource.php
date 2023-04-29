@@ -16,7 +16,8 @@ class FolderFormResource extends JsonResource
         return [
             'id' => $this->resource?->id,
             'active' => $this->resource?->active ?? true,
-            'parent_id' => $this->resource?->parent_id ?? Folder::root()->id,
+            'parent_id' => $this->resource?->parent_id ?? (int)$request->query("folder") ?? Folder::root()->id,
+            'roles' => $this->resource?->roles->pluck("name")->toArray() ?? [],
             'name' => $this->resource?->name ?? '',
             'description' => $this->resource?->description ?? '',
         ];

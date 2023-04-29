@@ -17,9 +17,7 @@ class FolderPolicy
 
     public function view(User $user, Folder $folder): bool
     {
-        // use this later for any permissions when
-        // displaying the file library
-        return true;
+        return $folder->authorizedToView($user);
     }
 
     public function create(User $user): bool
